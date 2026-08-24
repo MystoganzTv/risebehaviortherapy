@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import Faq from '../components/Faq.astro';
+import { services, settings, facts } from '../data/site';
+---
+
+<Base
+  title="Services"
+  description="ABA therapy, early intervention, skill building, parent training and compassionate care for children ages 2–20 — center-based, in-home and school-based across Florida."
+>
+  <PageHero
+    eyebrow="Our services"
+    title="One clinical standard, delivered wherever your child needs it."
+    lead={`Every service below is designed and supervised by a Board Certified Behavior Analyst, individualized from assessment data, and available for children and young adults ${facts.ages}.`}
+  >
+    <div class="mt-9 flex flex-wrap gap-2.5">
+      {services.map((s) => (
+        <a
+          href={`#${s.slug}`}
+          class="rounded-full bg-white/10 px-4 py-2 text-sm font-medium text-white ring-1 ring-white/20 backdrop-blur transition hover:bg-white/20"
+        >
+          {s.title}
+        </a>
+      ))}
+    </div>
+  </PageHero>
+
+  <div class="container-page divide-y divide-navy-100">
+    {services.map((s, i) => (
+      <section id={s.slug} class="scroll-mt-32 py-16 lg:py-24">
+        <div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+          <div data-reveal>
+            <span class="flex h-14 w-14 items-center justify-center rounded-2xl bg-navy-800 text-white">
+              <Icon name={s.icon} class="h-6 w-6" />
+            </span>
+            <p class="mt-6 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-leaf-700">
+              Service {String(i + 1).padStart(2, '0')}
+            </p>
+            <h2 class="mt-2 text-3xl sm:text-4xl lg:leading-[1.14]">{s.title}</h2>
+            <p class="mt-5 text-lg leading-relaxed text-ink-600">{s.short}</p>
+          </div>
+
+          <div data-reveal style="--reveal-delay:100ms">
+            <p class="text-[1.05rem] leading-relaxed text-ink-700">{s.body}</p>
+            <ul class="mt-8 grid gap-3.5 sm:grid-cols-2">
+              {s.points.map((p) => (
+                <li class="flex items-start gap-3 rounded-2xl bg-navy-50/70 px-4 py-3.5 ring-1 ring-navy-100">
+                  <Icon name="check" class="mt-0.5 h-4.5 w-4.5 shrink-0 text-leaf-600" />
+                  <span class="text-[0.95rem] leading-snug text-ink-700">{p}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <!-- SETTINGS -->
+  <section class="bg-sand-100 py-20 lg:py-28">
+    <div class="container-page">
+      <div class="max-w-2xl" data-reveal>
+        <p class="eyebrow">Settings</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">
+          Three places we work — often in combination.
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-600">{facts.serviceAreaLong}</p>
+      </div>
+
+      <div class="mt-14 grid gap-5 md:grid-cols-3">
+        {settings.map((s, i) => (
+          <article class="card" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-leaf-50 text-leaf-700 ring-1 ring-leaf-100">
+              <Icon name={s.icon} class="h-5.5 w-5.5" />
+            </span>
+            <p class="mt-6 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-leaf-700">{s.short}</p>
+            <h3 class="mt-2 text-2xl">{s.title}</h3>
+            <p class="mt-4 leading-relaxed text-ink-600">{s.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Faq limit={5} heading="What families ask about our services" />
+
+  <CtaBand />
+</Base>

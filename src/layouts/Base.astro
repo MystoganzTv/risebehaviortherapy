@@ -1,0 +1,130 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site, contact, facts } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+
+const { title, description, ogImage = '/og.jpg' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+const fullTitle = title === 'home' ? `${site.name} — ABA Therapy in Miami Lakes, FL` : `${title} | ${site.name}`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': ['MedicalBusiness', 'LocalBusiness'],
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  legalName: site.legalName,
+  slogan: site.tagline,
+  description: site.description,
+  url: site.url,
+  logo: `${site.url}/logo.svg`,
+  image: `${site.url}/og.jpg`,
+  telephone: contact.phoneRaw,
+  faxNumber: contact.fax,
+  email: contact.email,
+  priceRange: '$$',
+  medicalSpecialty: 'Applied Behavior Analysis',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: contact.address.street,
+    addressLocality: contact.address.city,
+    addressRegion: contact.address.state,
+    postalCode: contact.address.zip,
+    addressCountry: 'US',
+  },
+  areaServed: { '@type': 'State', name: facts.serviceArea },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '17:00',
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#12275b" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={new URL(ogImage, site.url).href} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap"
+    />
+
+    <script is:inline set:html={JSON.stringify(schema)} type="application/ld+json" />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-navy-800 focus:px-5 focus:py-3 focus:text-sm focus:font-semibold focus:text-white"
+      >Skip to content</a
+    >
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <!-- Mobile sticky call bar -->
+    <div
+      class="fixed inset-x-0 bottom-0 z-40 border-t border-navy-100 bg-white/95 p-3 backdrop-blur-lg md:hidden"
+      style="padding-bottom: max(0.75rem, env(safe-area-inset-bottom))"
+    >
+      <div class="flex gap-2.5">
+        <a href={contact.phoneHref} class="btn-ghost flex-1 !py-3 !text-sm">Call now</a>
+        <a href="/contact/" class="btn-accent flex-1 !py-3 !text-sm">Free consultation</a>
+      </div>
+    </div>
+    <div class="h-[4.75rem] md:hidden" aria-hidden="true"></div>
+
+    <script>
+      const els = document.querySelectorAll('[data-reveal]');
+      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                (e.target as HTMLElement).classList.add('is-in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.05 }
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('is-in'));
+      }
+    </script>
+  </body>
+</html>

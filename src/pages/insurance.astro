@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { insurances, contact } from '../data/site';
+
+const reassure = [
+  {
+    icon: 'check',
+    title: 'We verify for you — free',
+    body: 'Send us your plan information and we will call your insurer, confirm ABA benefits, and explain what we find in plain language. No cost, no commitment.',
+  },
+  {
+    icon: 'shield',
+    title: 'We handle authorization',
+    body: 'Assessment authorization, treatment plan submission, reauthorizations — that is our job, not yours. We keep you updated on where things stand.',
+  },
+  {
+    icon: 'spark',
+    title: 'No surprise billing',
+    body: 'Before therapy starts you will know your expected copay, coinsurance or deductible responsibility. If something changes, you hear it from us first.',
+  },
+];
+---
+
+<Base
+  title="Insurance & Coverage"
+  description="Rise Behavior Therapy accepts Florida Medicaid plans, major commercial insurers and private pay for ABA therapy. Free insurance benefits verification."
+>
+  <PageHero
+    eyebrow="Insurance & coverage"
+    title="Let us do the insurance part."
+    lead="Coverage is the first question almost every family asks, and the one most practices answer vaguely. Send us your plan details and we will get you a real answer — at no cost, with no obligation."
+  >
+    <div class="mt-9 flex flex-wrap gap-3">
+      <a href="#verify" class="btn-accent">Check my benefits<Icon name="arrow" class="h-4 w-4" /></a>
+      <a href={contact.phoneHref} class="btn-onnavy"><Icon name="phone" class="h-4 w-4" />{contact.phone}</a>
+    </div>
+  </PageHero>
+
+  <!-- PLANS -->
+  <section class="container-page py-20 lg:py-28">
+    <div class="max-w-2xl" data-reveal>
+      <p class="eyebrow">Plans we work with</p>
+      <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">
+        Medicaid, major commercial plans, and private pay.
+      </h2>
+      <p class="mt-5 text-lg leading-relaxed text-ink-600">
+        Networks change and every plan is different — even two plans from the same insurer can cover
+        ABA differently. Do not rule yourself out based on this list. Ask us.
+      </p>
+    </div>
+
+    <ul class="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {insurances.map((i, idx) => (
+        <li
+          class="flex items-center gap-3 rounded-2xl bg-white px-5 py-4 shadow-soft ring-1 ring-navy-100/80"
+          data-reveal
+          style={`--reveal-delay:${Math.min(idx, 8) * 45}ms`}
+        >
+          <Icon name="check" class="h-4.5 w-4.5 shrink-0 text-leaf-600" />
+          <span class="font-medium text-navy-800">{i}</span>
+        </li>
+      ))}
+      <li class="flex items-center gap-3 rounded-2xl bg-navy-800 px-5 py-4 text-white" data-reveal>
+        <Icon name="phone" class="h-4.5 w-4.5 shrink-0 text-leaf-300" />
+        <span class="font-medium">Don’t see yours? Call us.</span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- REASSURANCE -->
+  <section class="bg-sand-100 py-20 lg:py-24">
+    <div class="container-page grid gap-5 md:grid-cols-3">
+      {reassure.map((r, i) => (
+        <div class="card" data-reveal style={`--reveal-delay:${i * 90}ms`}>
+          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-800 text-white">
+            <Icon name={r.icon} class="h-5.5 w-5.5" />
+          </span>
+          <h3 class="mt-6 text-xl">{r.title}</h3>
+          <p class="mt-3 leading-relaxed text-ink-600">{r.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- VERIFY FORM -->
+  <section id="verify" class="scroll-mt-32 py-20 lg:py-28">
+    <div class="container-page grid min-w-0 gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">Free benefits check</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]">
+          Find out what your plan actually covers.
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-600">
+          Send us the basics and we will verify your ABA benefits and get back to you — usually
+          within one business day.
+        </p>
+        <p class="mt-6 rounded-2xl bg-navy-50 px-5 py-4 text-[0.9rem] leading-relaxed text-ink-600 ring-1 ring-navy-100">
+          Please do not send your full member ID or any medical details through this form. We will
+          collect what we need securely once we connect.
+        </p>
+      </div>
+      <div class="rounded-[2rem] bg-navy-50/60 p-6 ring-1 ring-navy-100 sm:p-9" data-reveal style="--reveal-delay:100ms">
+        <LeadForm id="insurance-form" />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Uninsured or between plans?"
+    body="We accept private pay and will walk you through the options honestly, including what a realistic schedule and cost would look like for your child."
+  />
+</Base>

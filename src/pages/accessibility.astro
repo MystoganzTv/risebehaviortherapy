@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { contact } from '../data/site';
+---
+
+<Base
+  title="Accessibility"
+  description="Rise Behavior Therapy is committed to keeping risebehaviortherapy.com usable for everyone. Tell us if something on this site is hard to use."
+>
+  <PageHero eyebrow="Accessibility" title="Everyone should be able to use this site." />
+
+  <section class="container-page py-16 lg:py-24">
+    <div class="mx-auto max-w-3xl space-y-10 text-[1.05rem] leading-relaxed text-ink-700">
+      <p>
+        Accessibility is not a side concern for a practice that works with disability every day. This
+        site was built to meet the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA as closely
+        as we can, including semantic structure, keyboard navigation, visible focus indicators, text
+        alternatives for images, and color contrast that holds up at normal reading sizes.
+      </p>
+      <p>
+        Motion on this site is subtle by design and is disabled automatically for visitors whose
+        device is set to reduce motion. Content is readable and functional without JavaScript, and
+        the layout reflows down to small screens without loss of information.
+      </p>
+
+      <div>
+        <h2 class="text-2xl">Found a problem?</h2>
+        <p class="mt-4">
+          Standards are a floor, not proof. If any part of this site is difficult to use with a
+          screen reader, keyboard, magnifier or any other assistive technology, we want to hear about
+          it — and we will fix it.
+        </p>
+        <p class="mt-4">
+          Email <a href={contact.emailHref} class="font-semibold text-navy-800 underline decoration-leaf-400 underline-offset-4">{contact.email}</a>
+          or call <a href={contact.phoneHref} class="font-semibold text-navy-800">{contact.phone}</a>.
+          Tell us the page and what happened, and we will respond and provide the information you
+          were looking for in another format in the meantime.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

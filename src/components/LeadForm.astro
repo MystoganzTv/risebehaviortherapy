@@ -1,0 +1,204 @@
+---
+import { forms, contact, insurances } from '../data/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  variant?: 'family' | 'career';
+  id?: string;
+}
+const { variant = 'family', id = 'lead-form' } = Astro.props;
+const isCareer = variant === 'career';
+const subject = isCareer
+  ? 'New career application — risebehaviortherapy.com'
+  : 'New consultation request — risebehaviortherapy.com';
+
+const field =
+  'w-full rounded-2xl border-0 bg-white px-4 py-3.5 text-[0.95rem] text-navy-900 ring-1 ring-navy-200 ' +
+  'placeholder:text-navy-300 transition focus:ring-2 focus:ring-leaf-500 focus:outline-none';
+const label = 'block text-[0.82rem] font-semibold uppercase tracking-[0.08em] text-navy-700';
+---
+
+<form
+  id={id}
+  class="grid gap-5"
+  action="https://api.web3forms.com/submit"
+  method="POST"
+  data-fallback-email={contact.email}
+  data-has-key={forms.accessKey ? 'true' : 'false'}
+>
+  <input type="hidden" name="access_key" value={forms.accessKey} />
+  <input type="hidden" name="subject" value={subject} />
+  <input type="hidden" name="from_name" value="Rise Behavior Therapy website" />
+  <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" aria-hidden="true" />
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class={label} for={`${id}-name`}>{isCareer ? 'Full name' : 'Your name'} *</label>
+      <input class={`mt-2 ${field}`} id={`${id}-name`} name="name" type="text" required autocomplete="name" placeholder="Jane Doe" />
+    </div>
+    <div>
+      <label class={label} for={`${id}-phone`}>Phone *</label>
+      <input class={`mt-2 ${field}`} id={`${id}-phone`} name="phone" type="tel" required autocomplete="tel" placeholder="(786) 555-0123" />
+    </div>
+  </div>
+
+  <div>
+    <label class={label} for={`${id}-email`}>Email *</label>
+    <input class={`mt-2 ${field}`} id={`${id}-email`} name="email" type="email" required autocomplete="email" placeholder="you@example.com" />
+  </div>
+
+  {isCareer ? (
+    <>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label class={label} for={`${id}-position`}>Position of interest *</label>
+          <select class={`mt-2 ${field}`} id={`${id}-position`} name="position" required>
+            <option value="">Select a position</option>
+            <option>BCBA</option>
+            <option>BCaBA</option>
+            <option>Registered Behavior Technician (RBT)</option>
+            <option>Behavior Technician (in training)</option>
+            <option>Administrative</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label class={label} for={`${id}-cert`}>Certification status</label>
+          <select class={`mt-2 ${field}`} id={`${id}-cert`} name="certification">
+            <option value="">Select one</option>
+            <option>Currently certified</option>
+            <option>In progress / pending exam</option>
+            <option>Not yet certified — interested in training</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class={label} for={`${id}-message`}>Tell us about yourself</label>
+        <textarea class={`mt-2 ${field}`} id={`${id}-message`} name="message" rows="4"
+          placeholder="Experience, availability, and a link to your résumé or LinkedIn."></textarea>
+      </div>
+      <p class="text-[0.8rem] leading-relaxed text-ink-500">
+        Prefer to send a résumé? Email it to
+        <a href={contact.emailHref} class="font-semibold text-navy-800 underline decoration-leaf-400 underline-offset-4">{contact.email}</a>.
+      </p>
+    </>
+  ) : (
+    <>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label class={label} for={`${id}-age`}>Child’s age</label>
+          <input class={`mt-2 ${field}`} id={`${id}-age`} name="child_age" type="text" placeholder="e.g. 4 years old" />
+        </div>
+        <div>
+          <label class={label} for={`${id}-insurance`}>Insurance</label>
+          <select class={`mt-2 ${field}`} id={`${id}-insurance`} name="insurance">
+            <option value="">Select your plan</option>
+            {insurances.map((i) => <option>{i}</option>)}
+            <option>Other / not listed</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class={label} for={`${id}-setting`}>Preferred setting</label>
+        <select class={`mt-2 ${field}`} id={`${id}-setting`} name="setting">
+          <option value="">No preference</option>
+          <option>Center-based (Miami Lakes)</option>
+          <option>In-home</option>
+          <option>School or community</option>
+          <option>A combination</option>
+        </select>
+      </div>
+
+      <div>
+        <label class={label} for={`${id}-message`}>How can we help?</label>
+        <textarea class={`mt-2 ${field}`} id={`${id}-message`} name="message" rows="4"
+          placeholder="Tell us a little about your child and what you are looking for."></textarea>
+      </div>
+
+      <p class="rounded-2xl bg-navy-50 px-4 py-3 text-[0.8rem] leading-relaxed text-ink-600">
+        <strong class="font-semibold text-navy-800">Please don’t include medical details.</strong>
+        This form is not a secure channel for health information. We’ll gather anything clinical
+        over the phone or through our secure intake process.
+      </p>
+    </>
+  )}
+
+  <div class="flex flex-wrap items-center gap-4 pt-1">
+    <button type="submit" class="btn-accent !whitespace-normal text-center">
+      <span data-submit-label>{isCareer ? 'Submit application' : 'Request my free consultation'}</span>
+      <Icon name="arrow" class="h-4 w-4" />
+    </button>
+    <a href={contact.phoneHref} class="inline-flex items-center gap-2 text-sm font-semibold text-navy-700 transition hover:text-navy-900">
+      <Icon name="phone" class="h-4 w-4 text-leaf-600" />or call {contact.phone}
+    </a>
+  </div>
+
+  <p data-form-status role="status" aria-live="polite" class="hidden rounded-2xl px-4 py-3 text-[0.9rem]"></p>
+</form>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('form[data-fallback-email]').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const labelEl = form.querySelector<HTMLElement>('[data-submit-label]');
+    const original = labelEl?.textContent ?? 'Submit';
+
+    const show = (msg: string, ok: boolean) => {
+      if (!status) return;
+      status.textContent = msg;
+      status.className =
+        'rounded-2xl px-4 py-3 text-[0.9rem] ' +
+        (ok ? 'bg-leaf-50 text-leaf-800 ring-1 ring-leaf-200' : 'bg-red-50 text-red-800 ring-1 ring-red-200');
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      const hasKey = form.dataset.hasKey === 'true';
+
+      // No form backend configured yet — hand off to the visitor's email client
+      // so an inquiry is never silently lost.
+      if (!hasKey) {
+        const email = form.dataset.fallbackEmail!;
+        const lines: string[] = [];
+        data.forEach((v, k) => {
+          if (['access_key', 'subject', 'from_name', 'botcheck'].includes(k)) return;
+          if (typeof v === 'string' && v.trim()) {
+            lines.push(`${k.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}: ${v}`);
+          }
+        });
+        const subject = String(data.get('subject') ?? 'Website inquiry');
+        window.location.href =
+          `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+        show('Opening your email app so you can send this to us directly.', true);
+        return;
+      }
+
+      if (btn) btn.disabled = true;
+      if (labelEl) labelEl.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: data,
+        });
+        if (res.ok) {
+          form.reset();
+          show('Thank you — your message is on its way. We usually respond within one business day.', true);
+        } else {
+          show('Something went wrong sending your message. Please call us at (786) 566-5863.', false);
+        }
+      } catch {
+        show('We could not send your message. Please call us at (786) 566-5863.', false);
+      } finally {
+        if (btn) btn.disabled = false;
+        if (labelEl) labelEl.textContent = original;
+      }
+    });
+  });
+</script>

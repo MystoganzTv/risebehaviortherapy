@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { nav, contact } from '../data/site';
+---
+
+<Base title="Page Not Found" description="That page could not be found on risebehaviortherapy.com.">
+  <section class="relative overflow-hidden bg-navy-900 py-24 text-white lg:py-32">
+    <div class="pointer-events-none absolute inset-0 grid-lines opacity-60 mix-blend-overlay"></div>
+    <div class="pointer-events-none absolute -right-24 -top-24 h-[28rem] w-[28rem] rounded-full bg-leaf-500/15 blur-3xl"></div>
+
+    <div class="container-page relative max-w-2xl text-center">
+      <img src="/icon-white.svg" alt="" aria-hidden="true" class="mx-auto w-20 opacity-80" />
+      <p class="eyebrow mt-8 !text-leaf-300 justify-center">404</p>
+      <h1 class="mt-4 text-4xl !text-white sm:text-5xl">We can’t find that page.</h1>
+      <p class="mt-5 text-lg leading-relaxed text-navy-200">
+        The link may be out of date. Here is where you probably wanted to go.
+      </p>
+
+      <div class="mt-10 flex flex-wrap justify-center gap-2.5">
+        <a href="/" class="btn-accent">Back to home</a>
+        {nav.map((i) => (
+          <a href={i.href} class="btn-onnavy !px-5 !py-2.5 !text-sm">{i.label}</a>
+        ))}
+      </div>
+
+      <a href={contact.phoneHref} class="mt-10 inline-flex items-center gap-2 text-navy-200 transition hover:text-white">
+        <Icon name="phone" class="h-4 w-4 text-leaf-300" />Or just call us: {contact.phone}
+      </a>
+    </div>
+  </section>
+</Base>

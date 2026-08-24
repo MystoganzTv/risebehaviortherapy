@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { steps, contact, facts } from '../data/site';
+
+const detail: Record<string, string[]> = {
+  '01': [
+    'Call, email, or send the form — whichever is easiest.',
+    'We ask about your child’s age, your availability, and your insurance.',
+    'You will speak with someone who can actually answer clinical questions.',
+  ],
+  '02': [
+    'We contact your insurance and verify ABA benefits at no cost to you.',
+    'You get a plain-language summary: what is covered, what is not, and any expected out-of-pocket.',
+    'If a diagnosis or referral is still missing, we tell you exactly what to request and from whom.',
+  ],
+  '03': [
+    'A BCBA completes a comprehensive assessment with you and your child.',
+    'Together we choose goals that matter to your family, not just to a data sheet.',
+    'We submit the treatment plan for authorization and keep you updated on the timeline.',
+  ],
+  '04': [
+    'Sessions begin in your chosen setting with a consistent assigned team.',
+    'Caregiver training is built into the schedule from the start.',
+    'Progress is reviewed continuously and adjusted whenever the data says it should be.',
+  ],
+};
+
+const documents = [
+  'Your insurance card (front and back)',
+  'A diagnostic evaluation or ASD diagnosis, if you have one',
+  'A prescription or referral for ABA, if your plan requires it',
+  'Any recent reports from school, speech, OT or a prior provider',
+];
+---
+
+<Base
+  title="Getting Started"
+  description="How to start ABA therapy with Rise Behavior Therapy in Miami Lakes, FL — from your first call through your child's first session. Free insurance benefits verification."
+>
+  <PageHero
+    eyebrow="Getting started"
+    title="Starting ABA should not feel like paperwork."
+    lead="Here is the entire process, start to finish, with no surprises. Most families move from first call to first session without ever having to chase us for an update."
+  >
+    <div class="mt-9">
+      <a href="#request" class="btn-accent">
+        Start with a free consultation<Icon name="arrow" class="h-4 w-4" />
+      </a>
+    </div>
+  </PageHero>
+
+  <section class="container-page py-20 lg:py-28">
+    <div class="space-y-6">
+      {steps.map((s, i) => (
+        <article
+          class="grid gap-8 rounded-[2rem] bg-white p-7 shadow-soft ring-1 ring-navy-100/80 sm:p-9 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16 lg:p-11"
+          data-reveal
+          style={`--reveal-delay:${i * 80}ms`}
+        >
+          <div>
+            <div class="flex items-baseline gap-4">
+              <span class="font-serif text-5xl text-leaf-500">{s.n}</span>
+              <span class="h-px flex-1 bg-navy-100"></span>
+            </div>
+            <h2 class="mt-5 text-2xl sm:text-3xl">{s.title}</h2>
+            <p class="mt-4 leading-relaxed text-ink-600">{s.body}</p>
+          </div>
+          <ul class="grid content-center gap-3.5">
+            {detail[s.n].map((d) => (
+              <li class="flex items-start gap-3">
+                <Icon name="check" class="mt-1 h-4.5 w-4.5 shrink-0 text-leaf-600" />
+                <span class="text-[1.02rem] leading-relaxed text-ink-700">{d}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <!-- WHAT TO HAVE READY -->
+  <section class="bg-sand-100 py-20 lg:py-24">
+    <div class="container-page grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">Before you call</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]">
+          Helpful to have — but not required.
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-600">
+          If you have none of this yet, call anyway. A large part of what we do at intake is help
+          families figure out what they need and where to get it.
+        </p>
+      </div>
+      <ul class="grid gap-3.5 sm:grid-cols-2" data-reveal style="--reveal-delay:100ms">
+        {documents.map((d) => (
+          <li class="flex items-start gap-3 rounded-2xl bg-white px-5 py-4 shadow-soft ring-1 ring-navy-100/80">
+            <Icon name="check" class="mt-0.5 h-4.5 w-4.5 shrink-0 text-leaf-600" />
+            <span class="text-[0.97rem] leading-snug text-ink-700">{d}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section id="request" class="scroll-mt-32 py-20 lg:py-28">
+    <div class="container-page grid min-w-0 gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">Step one</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]">
+          Request your free consultation.
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-600">
+          Fill this out and we will call you back — usually the same business day. Serving
+          children and young adults {facts.ages} across {facts.serviceArea}.
+        </p>
+        <div class="mt-8 space-y-4">
+          <a href={contact.phoneHref} class="flex items-center gap-3.5 text-lg font-semibold text-navy-800 transition hover:text-leaf-700">
+            <span class="flex h-11 w-11 items-center justify-center rounded-full bg-navy-50 text-navy-800 ring-1 ring-navy-100">
+              <Icon name="phone" class="h-4.5 w-4.5" />
+            </span>
+            {contact.phone}
+          </a>
+          <a href={contact.emailHref} class="flex items-center gap-3.5 break-all font-medium text-ink-700 transition hover:text-navy-800">
+            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-navy-50 text-navy-800 ring-1 ring-navy-100">
+              <Icon name="mail" class="h-4.5 w-4.5" />
+            </span>
+            {contact.email}
+          </a>
+        </div>
+      </div>
+
+      <div class="rounded-[2rem] bg-navy-50/60 p-6 ring-1 ring-navy-100 sm:p-9" data-reveal style="--reveal-delay:100ms">
+        <LeadForm id="start-form" />
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Still deciding whether ABA is right?"
+    body="Call us and ask. If ABA is not what your child needs right now, we will say so and point you toward what is."
+  />
+</Base>

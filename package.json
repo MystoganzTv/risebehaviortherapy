@@ -1,0 +1,18 @@
+{
+  "name": "risebehaviortherapy",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.2.6",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^4.3.3"
+  },
+  "description": "Marketing website for Rise Behavior Therapy — ABA therapy in Miami Lakes, FL"
+}

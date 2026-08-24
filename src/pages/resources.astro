@@ -1,0 +1,152 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+
+const glossary = [
+  { term: 'ABA', def: 'Applied Behavior Analysis — the science of understanding why behavior happens and using that understanding to teach meaningful skills.' },
+  { term: 'BCBA', def: 'Board Certified Behavior Analyst. A master’s-level clinician certified by the BACB who designs and supervises ABA programs.' },
+  { term: 'RBT', def: 'Registered Behavior Technician. The certified professional who delivers direct therapy sessions under BCBA supervision.' },
+  { term: 'FBA', def: 'Functional Behavior Assessment — the process of identifying what a challenging behavior accomplishes for the child, so it can be replaced with something better.' },
+  { term: 'Reinforcement', def: 'Anything that follows a behavior and makes it more likely to happen again. Effective ABA finds what genuinely motivates your child, not what should.' },
+  { term: 'Generalization', def: 'A skill counts only when it works with different people, in different places, with different materials. Generalization is how we get there.' },
+  { term: 'Prompting & fading', def: 'Temporary help that gets a child to the right response, then is systematically removed so the skill becomes independent.' },
+  { term: 'Assent', def: 'The child’s ongoing, moment-to-moment willingness to participate. Withdrawn assent is information, and we respond to it.' },
+];
+
+const signs = [
+  'Limited or no eye contact, or difficulty responding to their name',
+  'Delayed speech, loss of words previously used, or repeating phrases without communicative intent',
+  'Strong preference for routines, with significant distress when they change',
+  'Repetitive movements or intense, narrow interests',
+  'Difficulty playing with peers or engaging in pretend play',
+  'Unusual reactions to sound, texture, light or touch',
+];
+
+const links = [
+  {
+    name: 'CDC — Learn the Signs. Act Early.',
+    url: 'https://www.cdc.gov/act-early/milestones/index.html',
+    body: 'Free milestone checklists by age, from the Centers for Disease Control and Prevention. The best starting point if you are wondering whether to have your child evaluated.',
+  },
+  {
+    name: 'BACB — Verify a certification',
+    url: 'https://www.bacb.com/verify-certification/',
+    body: 'Look up any BCBA, BCaBA or RBT in the official Behavior Analyst Certification Board registry. Do this for any provider you are considering — including us.',
+  },
+  {
+    name: 'Florida Medicaid — Agency for Health Care Administration',
+    url: 'https://ahca.myflorida.com/',
+    body: 'The state agency that administers Florida Medicaid, including behavior analysis services and plan information.',
+  },
+  {
+    name: 'Autism Speaks — Resource Guide',
+    url: 'https://www.autismspeaks.org/resource-guide',
+    body: 'A searchable directory of local services, financial assistance and support programs by state.',
+  },
+];
+---
+
+<Base
+  title="Resources for Families"
+  description="Plain-language ABA resources for parents: what the terms mean, early signs of autism, questions to ask a provider, and trusted external links."
+>
+  <PageHero
+    eyebrow="Parent resources"
+    title="Plain language, no acronym soup."
+    lead="ABA comes with a vocabulary that can make a hard moment harder. Here is what the terms actually mean, what to watch for, and where to go for trustworthy information."
+  />
+
+  <!-- EARLY SIGNS -->
+  <section class="container-page py-20 lg:py-24">
+    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">When to look closer</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]">
+          Early signs worth a conversation.
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-600">
+          None of these means your child has autism. All of them are reasons to ask your pediatrician
+          for a developmental screening. Early evaluation is never wasted — the earlier support
+          begins, the more it can do.
+        </p>
+        <a href="/contact/" class="btn-ghost mt-8">Talk it through with a BCBA</a>
+      </div>
+      <ul class="grid gap-3.5" data-reveal style="--reveal-delay:100ms">
+        {signs.map((s, i) => (
+          <li
+            class="flex items-start gap-3.5 rounded-2xl bg-white px-5 py-4 shadow-soft ring-1 ring-navy-100/80"
+            style={`--reveal-delay:${i * 40}ms`}
+          >
+            <span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-leaf-50 text-leaf-700 ring-1 ring-leaf-100">
+              <Icon name="check" class="h-3.5 w-3.5" />
+            </span>
+            <span class="text-[1.02rem] leading-relaxed text-ink-700">{s}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- GLOSSARY -->
+  <section class="bg-sand-100 py-20 lg:py-24">
+    <div class="container-page">
+      <div class="max-w-2xl" data-reveal>
+        <p class="eyebrow">Glossary</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]">
+          The words you will hear, translated.
+        </h2>
+      </div>
+      <dl class="mt-12 grid gap-4 sm:grid-cols-2">
+        {glossary.map((g, i) => (
+          <div class="card" data-reveal style={`--reveal-delay:${Math.min(i, 6) * 55}ms`}>
+            <dt class="font-serif text-xl text-navy-800">{g.term}</dt>
+            <dd class="mt-2.5 leading-relaxed text-ink-600">{g.def}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- EXTERNAL LINKS -->
+  <section class="container-page py-20 lg:py-24">
+    <div class="max-w-2xl" data-reveal>
+      <p class="eyebrow">Trusted sources</p>
+      <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.5rem] lg:leading-[1.14]">
+        Where to go for real information.
+      </h2>
+      <p class="mt-5 text-lg leading-relaxed text-ink-600">
+        We would rather point you to primary sources than have you sift through search results.
+      </p>
+    </div>
+
+    <div class="mt-12 grid gap-4 sm:grid-cols-2">
+      {links.map((l, i) => (
+        <a
+          href={l.url}
+          target="_blank"
+          rel="noopener"
+          class="card-hover group flex flex-col"
+          data-reveal
+          style={`--reveal-delay:${i * 70}ms`}
+        >
+          <h3 class="text-xl">{l.name}</h3>
+          <p class="mt-3 flex-1 leading-relaxed text-ink-600">{l.body}</p>
+          <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-leaf-700">
+            Visit site
+            <Icon name="arrow" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <Faq heading="Everything families ask us" />
+
+  <CtaBand
+    title="Have a question this page did not answer?"
+    body="Ask us directly. You will get a straight answer from a Board Certified Behavior Analyst, whether or not you ever become a client."
+  />
+</Base>

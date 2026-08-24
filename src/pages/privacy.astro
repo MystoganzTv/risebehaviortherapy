@@ -1,0 +1,102 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { contact, site } from '../data/site';
+
+const updated = 'August 2026';
+---
+
+<Base
+  title="Privacy Policy"
+  description="How Rise Behavior Therapy collects, uses and protects information submitted through risebehaviortherapy.com."
+>
+  <PageHero eyebrow="Legal" title="Privacy Policy" lead={`Last updated: ${updated}`} />
+
+  <section class="container-page py-16 lg:py-24">
+    <div class="mx-auto max-w-3xl space-y-10 text-[1.05rem] leading-relaxed text-ink-700">
+      <p class="rounded-2xl bg-navy-50 px-6 py-5 text-[0.95rem] text-ink-600 ring-1 ring-navy-100">
+        This page describes how information submitted through this website is handled. It is a
+        general website privacy notice and is not the Notice of Privacy Practices that governs
+        protected health information for clients of {site.legalName}. Current clients receive that
+        notice separately at intake and may request another copy at any time.
+      </p>
+
+      <div>
+        <h2 class="text-2xl">Information we collect</h2>
+        <p class="mt-4">
+          When you submit a form on this site, we collect the information you choose to provide —
+          typically your name, phone number, email address, and any details you write in the message
+          field. Our forms ask you not to include medical or health information, and we ask that you
+          follow that guidance; anything clinical is collected later through a secure intake process.
+        </p>
+        <p class="mt-4">
+          Like most websites, our host may log standard technical data such as IP address, browser
+          type and pages visited. We do not use this to identify individual visitors.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">How we use it</h2>
+        <p class="mt-4">
+          We use the information you submit for one purpose: to respond to you. That may include
+          returning your call, answering a question, verifying insurance benefits at your request,
+          or following up about a job application. We do not sell your information, and we do not
+          share it with third parties for marketing.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">Service providers</h2>
+        <p class="mt-4">
+          This website is hosted by a third-party provider, and form submissions are delivered to us
+          by a form-handling service. These providers process data only as needed to operate the
+          site and deliver messages to us.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">Cookies and analytics</h2>
+        <p class="mt-4">
+          This site does not use advertising cookies or cross-site tracking. If analytics are added
+          in the future to understand general traffic patterns, this page will be updated to say so.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">Links to other sites</h2>
+        <p class="mt-4">
+          Our resources page links to external organizations such as the CDC and the Behavior Analyst
+          Certification Board. Those sites have their own privacy policies, which we do not control.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">Children</h2>
+        <p class="mt-4">
+          This website is intended for parents, caregivers and prospective employees. We do not
+          knowingly collect information directly from children.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">Your choices</h2>
+        <p class="mt-4">
+          You may ask us to delete the information you submitted through this website at any time by
+          emailing <a href={contact.emailHref} class="font-semibold text-navy-800 underline decoration-leaf-400 underline-offset-4">{contact.email}</a>.
+          Records that are part of a client's clinical or billing file are governed by applicable
+          health-care record-retention requirements rather than this notice.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl">Contact</h2>
+        <p class="mt-4">
+          {site.legalName}<br />
+          {contact.address.full}<br />
+          <a href={contact.phoneHref} class="font-semibold text-navy-800">{contact.phone}</a> ·
+          <a href={contact.emailHref} class="font-semibold text-navy-800 underline decoration-leaf-400 underline-offset-4">{contact.email}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,29 @@
+---
+interface Props {
+  eyebrow: string;
+  title: string;
+  lead?: string;
+}
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-navy-900 pt-16 pb-20 text-white lg:pt-24 lg:pb-28">
+  <div class="pointer-events-none absolute inset-0 grid-lines opacity-60 mix-blend-overlay"></div>
+  <div class="pointer-events-none absolute -right-24 -top-24 h-[28rem] w-[28rem] rounded-full bg-leaf-500/15 blur-3xl"></div>
+  <div class="pointer-events-none absolute -left-40 bottom-0 h-96 w-96 rounded-full bg-navy-500/25 blur-3xl"></div>
+
+  <div class="container-page relative">
+    <div class="max-w-3xl">
+      <p class="eyebrow !text-leaf-300" data-reveal>{eyebrow}</p>
+      <h1 class="mt-5 text-4xl leading-[1.08] !text-white sm:text-5xl lg:text-[3.6rem]" data-reveal style="--reveal-delay:80ms">
+        {title}
+      </h1>
+      {lead && (
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-navy-200" data-reveal style="--reveal-delay:160ms">
+          {lead}
+        </p>
+      )}
+      <slot />
+    </div>
+  </div>
+</section>

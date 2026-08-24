@@ -1,0 +1,182 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import { founders, facts, contact } from '../data/site';
+
+import male from '../assets/founder-male.jpg';
+import female from '../assets/founder-female.jpg';
+import together from '../assets/founders-together.jpg';
+
+const photos = { male, female };
+
+const values = [
+  {
+    icon: 'shield',
+    title: 'Clinical integrity first',
+    body: 'Programs are built on assessment data and current research — not on what fills a schedule. If a goal is not working, we change it.',
+  },
+  {
+    icon: 'heart',
+    title: 'Assent-based practice',
+    body: 'Rapport before demands. We follow the child’s lead, honor their communication, and never trade dignity for compliance.',
+  },
+  {
+    icon: 'users',
+    title: 'Families are the team',
+    body: 'Parents and caregivers are trained, consulted and kept genuinely informed. You should always know why we are doing what we are doing.',
+  },
+  {
+    icon: 'spark',
+    title: 'Goals that matter',
+    body: 'We target skills that change a family’s daily life — communicating a need, sitting through a meal, sleeping through the night, making a friend.',
+  },
+];
+---
+
+<Base
+  title="About Us"
+  description="Rise Behavior Therapy is a BCBA-owned ABA practice in Miami Lakes, FL founded by Mauricio Marti Padron, BCBA and Adamarys Valdes Martinez, BCBA."
+>
+  <PageHero
+    eyebrow="About Rise"
+    title="A practice built by clinicians, not by a spreadsheet."
+    lead="Rise Behavior Therapy was founded on a simple frustration: too many children receive ABA that is technically delivered but not genuinely individualized. We built the practice we wanted our own families to have."
+  />
+
+  <section class="container-page py-20 lg:py-28">
+    <div class="grid gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-20">
+      <div data-reveal>
+        <p class="eyebrow">Our story</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">
+          Two BCBAs who stayed in the field.
+        </h2>
+        <div class="mt-7 space-y-6 text-lg leading-relaxed text-ink-600">
+          <p>
+            Rise Behavior Therapy is owned and directed by {founders[0].name} and {founders[1].name},
+            both Board Certified Behavior Analysts. They opened the practice in Miami Lakes with a
+            deliberately small footprint and a deliberately high standard: every program designed by
+            a BCBA, every technician trained and supervised in person, every family treated as a
+            partner in the plan.
+          </p>
+          <p>
+            That standard is the reason we grow carefully. We would rather tell a family honestly
+            that we have a wait than take on a caseload we cannot serve well. And it is the reason
+            our BCBAs are still doing clinical work — because a practice run entirely from an office
+            eventually stops recognizing what happens in a session.
+          </p>
+          <p>
+            Today we serve children and young adults {facts.ages} across {facts.serviceArea}, in our
+            center, in family homes, and in schools and community settings.
+          </p>
+        </div>
+      </div>
+
+      <div class="relative" data-reveal style="--reveal-delay:120ms">
+        <Image
+          src={together}
+          alt="Rise Behavior Therapy founders in their Miami Lakes office"
+          widths={[480, 760, 1000]}
+          sizes="(min-width: 1024px) 40vw, 92vw"
+          class="w-full rounded-[2rem] object-cover shadow-lift ring-1 ring-navy-100"
+          loading="eager"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDERS -->
+  <section class="bg-sand-100 py-20 lg:py-28">
+    <div class="container-page">
+      <div class="max-w-2xl" data-reveal>
+        <p class="eyebrow">Leadership</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">Meet the founders</h2>
+      </div>
+
+      <div class="mt-14 space-y-8">
+        {founders.map((f, i) => (
+          <article
+            class="grid gap-8 overflow-hidden rounded-[2rem] bg-white p-6 shadow-soft ring-1 ring-navy-100/80 sm:p-8 lg:grid-cols-[0.42fr_0.58fr] lg:gap-12 lg:p-10"
+            data-reveal
+            style={`--reveal-delay:${i * 110}ms`}
+          >
+            <Image
+              src={photos[f.photo]}
+              alt={`${f.name}, ${f.credentials}`}
+              widths={[420, 700, 900]}
+              sizes="(min-width: 1024px) 36vw, 90vw"
+              class="aspect-[5/4] w-full rounded-3xl object-cover object-top lg:aspect-[4/5]"
+              loading="lazy"
+            />
+            <div class="flex flex-col justify-center">
+              <p class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-leaf-700">{f.role}</p>
+              <h3 class="mt-2 text-3xl">{f.name}</h3>
+              <p class="mt-1.5 text-sm font-semibold text-ink-500">{f.credentials} · Board Certified Behavior Analyst</p>
+              <div class="mt-6 space-y-4 text-[1.02rem] leading-relaxed text-ink-600">
+                {f.bio.map((p) => <p>{p}</p>)}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="container-page py-20 lg:py-28">
+    <div class="max-w-2xl" data-reveal>
+      <p class="eyebrow">What we stand for</p>
+      <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">
+        The standards we refuse to bend.
+      </h2>
+    </div>
+
+    <div class="mt-14 grid gap-5 sm:grid-cols-2">
+      {values.map((v, i) => (
+        <div class="card flex gap-5" data-reveal style={`--reveal-delay:${i * 80}ms`}>
+          <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-navy-50 text-navy-800 ring-1 ring-navy-100">
+            <Icon name={v.icon} class="h-5 w-5" />
+          </span>
+          <div>
+            <h3 class="text-xl">{v.title}</h3>
+            <p class="mt-2.5 leading-relaxed text-ink-600">{v.body}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- LOCATION -->
+  <section class="border-y border-navy-100 bg-navy-50/60 py-16 lg:py-20">
+    <div class="container-page grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-16">
+      <div data-reveal>
+        <p class="eyebrow">Our center</p>
+        <h2 class="mt-4 text-3xl sm:text-4xl">Miami Lakes, Florida</h2>
+        <p class="mt-5 text-lg leading-relaxed text-ink-600">
+          {contact.address.street}<br />{contact.address.city}, {contact.address.state} {contact.address.zip}
+        </p>
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href={contact.address.mapsUrl} target="_blank" rel="noopener" class="btn-ghost">
+            <Icon name="pin" class="h-4 w-4" />Get directions
+          </a>
+          <a href="/contact/" class="btn-primary">Schedule a visit</a>
+        </div>
+      </div>
+      <div class="overflow-hidden rounded-[1.75rem] shadow-soft ring-1 ring-navy-100" data-reveal style="--reveal-delay:100ms">
+        <iframe
+          src={contact.address.embedUrl}
+          title="Map to Rise Behavior Therapy in Miami Lakes, Florida"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          class="h-72 w-full border-0 lg:h-80"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand
+    title="Come see the practice for yourself."
+    body="The best way to know whether Rise is right for your child is to talk to the people who will be responsible for their program. That is a conversation, not a sales call."
+  />
+</Base>
