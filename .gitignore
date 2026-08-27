@@ -13,3 +13,4 @@ preview/
 # Design hand-off source (the original canvas export — 27 MB)
 design-source/*.zip
 design-source/*.tgz
+.vercel

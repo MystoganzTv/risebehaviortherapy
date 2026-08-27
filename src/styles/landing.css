@@ -53,9 +53,11 @@ a:hover {
   }
 }
 
+/* No `scroll-behavior: smooth` here on purpose: with this page's layout Chrome
+   silently drops the smooth animation and the fragment jump never happens, so
+   every nav link looked dead. Instant scrolling is what the design specified
+   anyway. scroll-padding-top keeps the sticky header off the section titles. */
 html {
-  scroll-behavior: smooth;
-  /* sticky header height, so anchored sections don't hide under it */
   scroll-padding-top: 96px;
 }
 
