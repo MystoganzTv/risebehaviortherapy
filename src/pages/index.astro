@@ -1,326 +1,602 @@
 ---
-import { Image } from 'astro:assets';
-import Base from '../layouts/Base.astro';
-import Icon from '../components/Icon.astro';
-import CtaBand from '../components/CtaBand.astro';
-import Faq from '../components/Faq.astro';
-import { contact, services, settings, steps, insurances, founders, facts } from '../data/site';
+/**
+ * Rise Behavior Therapy — single-page landing.
+ *
+ * Faithful build of the approved design canvas
+ * (design-source/rediseno.dc.html, from Rise_Behavior_Therapy_rediseno.zip).
+ *
+ * Corrections applied to the canvas, confirmed with the client 2026-08-27:
+ *  - phone 786-322-3109 (superseded) -> 786-566-5863
+ *  - team cards now carry the founders' real names
+ * Everything else is transcribed as designed.
+ */
+import '../styles/landing.css';
+import { site, contact, forms } from '../data/site';
 
-import together from '../assets/founders-together.jpg';
-import male from '../assets/founder-male.jpg';
-import female from '../assets/founder-female.jpg';
+const phoneDisplay = '786-566-5863';
+const phoneHref = contact.phoneHref;
 
-const photos = { male, female };
+const title = `${site.name} — ABA Therapy in Miami Lakes, FL`;
+const description = site.description;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
 
-const trust = [
-  { icon: 'shield', label: 'BCBA-owned & led' },
-  { icon: 'users', label: facts.agesShort },
-  { icon: 'check', label: 'Insurance accepted' },
-  { icon: 'pin', label: 'Center · home · school' },
-];
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': ['MedicalBusiness', 'LocalBusiness'],
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  legalName: site.legalName,
+  slogan: site.tagline,
+  description: site.description,
+  url: site.url,
+  logo: `${site.url}/logo.svg`,
+  image: `${site.url}/og.jpg`,
+  telephone: contact.phoneRaw,
+  faxNumber: contact.fax,
+  email: contact.email,
+  priceRange: '$$',
+  medicalSpecialty: 'Applied Behavior Analysis',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: contact.address.street,
+    addressLocality: contact.address.city,
+    addressRegion: contact.address.state,
+    postalCode: contact.address.zip,
+    addressCountry: 'US',
+  },
+  areaServed: [
+    { '@type': 'State', name: 'Florida' },
+    { '@type': 'State', name: 'Virginia' },
+  ],
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '09:00',
+      closes: '17:00',
+    },
+  ],
+};
 ---
 
-<Base
-  title="home"
-  description="BCBA-owned ABA therapy in Miami Lakes, FL for children and young adults ages 2–20. Center-based, in-home and school-based services across Florida. Most insurance accepted — free benefits check."
->
-  <!-- ══════════ HERO ══════════ -->
-  <section class="relative overflow-hidden bg-navy-900">
-    <div class="pointer-events-none absolute inset-0 grid-lines opacity-60 mix-blend-overlay"></div>
-    <div class="pointer-events-none absolute -left-40 -top-32 h-[34rem] w-[34rem] rounded-full bg-navy-500/25 blur-3xl"></div>
-    <div class="pointer-events-none absolute right-1/4 bottom-0 h-[26rem] w-[26rem] rounded-full bg-leaf-500/12 blur-3xl"></div>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
 
-    <div class="container-page relative grid items-center gap-14 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:py-24">
-      <div>
-        <p class="eyebrow !text-leaf-300" data-reveal>Applied Behavior Analysis · Miami Lakes, FL</p>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0E2440" />
 
-        <h1
-          class="mt-6 text-[2.6rem] leading-[1.06] !text-white sm:text-5xl lg:text-[4rem] lg:leading-[1.03]"
-          data-reveal
-          style="--reveal-delay:70ms"
-        >
-          Your partner in every step of your child’s journey.
-        </h1>
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${site.url}/og.jpg`} />
+    <meta name="twitter:card" content="summary_large_image" />
 
-        <p class="mt-7 max-w-xl text-lg leading-relaxed text-navy-200" data-reveal style="--reveal-delay:140ms">
-          Rise Behavior Therapy delivers evidence-based ABA therapy in a supportive,
-          compassionate environment where every child can thrive — designed and supervised
-          by Board Certified Behavior Analysts who own the practice and stay in the field.
-        </p>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
 
-        <div class="mt-9 flex flex-wrap gap-3" data-reveal style="--reveal-delay:210ms">
-          <a href="/contact/" class="btn-accent">
-            Request a free consultation<Icon name="arrow" class="h-4 w-4" />
-          </a>
-          <a href={contact.phoneHref} class="btn-onnavy">
-            <Icon name="phone" class="h-4 w-4" />{contact.phone}
-          </a>
-        </div>
+    <script is:inline set:html={JSON.stringify(schema)} type="application/ld+json" />
+  </head>
 
-        <dl class="mt-12 grid max-w-xl grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4" data-reveal style="--reveal-delay:280ms">
-          {trust.map((t) => (
-            <div class="flex items-start gap-2.5">
-              <Icon name={t.icon} class="mt-0.5 h-4.5 w-4.5 shrink-0 text-leaf-300" />
-              <dt class="text-[0.87rem] font-medium leading-snug text-navy-100">{t.label}</dt>
-            </div>
-          ))}
-        </dl>
-      </div>
+  <body>
+    <a href="#top" class="skip-link">Skip to content</a>
 
-      <div class="relative" data-reveal style="--reveal-delay:180ms">
-        <div class="relative overflow-hidden rounded-[2.25rem] shadow-[0_40px_80px_-30px_rgba(0,0,0,0.6)] ring-1 ring-white/15">
-          <Image
-            src={together}
-            alt="The Board Certified Behavior Analysts who founded Rise Behavior Therapy, in their Miami Lakes office"
-            widths={[480, 760, 1100]}
-            sizes="(min-width: 1024px) 42vw, 92vw"
-            class="h-full w-full object-cover"
-            loading="eager"
-            fetchpriority="high"
-          />
-          <div class="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-navy-950/80 to-transparent"></div>
-          <div class="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
-            <p class="text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-leaf-300">Founded & led by</p>
-            <p class="mt-1.5 font-serif text-lg text-white sm:text-xl">
-              {founders.map((f) => f.name).join(' & ')}
-            </p>
-            <p class="text-[0.85rem] text-navy-200">Board Certified Behavior Analysts</p>
+    <div style="font-family:'IBM Plex Sans',system-ui,sans-serif;color:#0E2440;background:#FBF9F5;overflow-x:hidden">
+
+      <!-- ── Utility bar ─────────────────────────────────────────── -->
+      <div style="background:#0E2440;color:#C6D2E0;font-size:13px;letter-spacing:0.04em">
+        <div style="max-width:1240px;margin:0 auto;padding:10px 32px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+          <div style="display:flex;gap:24px;align-items:center;flex-wrap:wrap">
+            <span>Miami Lakes, Florida</span>
+            <span style="opacity:0.35">·</span>
+            <span>Mon–Fri, 9:00 am – 5:00 pm</span>
+          </div>
+          <div style="display:flex;gap:20px;align-items:center">
+            <span style="color:#7FC79B">Now accepting new clients</span>
+            <a href={phoneHref} style="color:#FBF9F5;font-weight:500;letter-spacing:0.02em">{phoneDisplay}</a>
           </div>
         </div>
-
-        <div
-          class="absolute -right-3 -top-5 hidden rounded-3xl bg-white p-5 shadow-lift ring-1 ring-navy-100 sm:block lg:-right-6"
-        >
-          <p class="font-serif text-3xl text-navy-800">100%</p>
-          <p class="mt-1 max-w-[9rem] text-[0.8rem] leading-snug text-ink-600">
-            of programs designed &amp; supervised by a BCBA
-          </p>
-        </div>
       </div>
-    </div>
 
-    <!-- insurance marquee -->
-    <div class="relative border-t border-white/10">
-      <div class="container-page flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:gap-10">
-        <p class="shrink-0 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-navy-300">
-          Insurance accepted
-        </p>
-        <div class="flex flex-wrap gap-x-7 gap-y-2.5">
-          {insurances.slice(0, 8).map((i) => (
-            <span class="text-[0.9rem] font-medium text-navy-200/90">{i}</span>
-          ))}
-          <a href="/insurance/" class="text-[0.9rem] font-semibold text-leaf-300 underline decoration-leaf-400/40 underline-offset-4 hover:text-leaf-200">
-            + more
+      <!-- ── Header ──────────────────────────────────────────────── -->
+      <header style="position:sticky;top:0;z-index:50;background:rgba(251,249,245,0.92);backdrop-filter:blur(12px);border-bottom:1px solid #E6E0D6">
+        <div style="max-width:1240px;margin:0 auto;padding:18px 32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 28px">
+          <a href="#top" style="display:flex;flex-direction:column;gap:3px;color:#0E2440;flex:none;width:max-content;white-space:nowrap">
+            <span style="font-family:'Newsreader',serif;font-size:26px;letter-spacing:0.34em;font-weight:400;line-height:1">RISE</span>
+            <span style="font-size:9px;letter-spacing:0.24em;color:#1C7A45;font-weight:600;text-transform:uppercase;white-space:nowrap">Behavior Therapy</span>
           </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════ INTRO / PROMISE ══════════ -->
-  <section class="container-page py-20 lg:py-28">
-    <div class="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-      <div data-reveal>
-        <p class="eyebrow">Why families choose Rise</p>
-        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
-          Helping children rise to their full potential.
-        </h2>
-      </div>
-      <div class="space-y-6 text-lg leading-relaxed text-ink-600" data-reveal style="--reveal-delay:100ms">
-        <p>
-          Rise was founded by two Board Certified Behavior Analysts who were tired of watching
-          good clinical practice get diluted by caseload math. So they built a practice around
-          the opposite premise: small caseloads, consistent staffing, and a BCBA who is genuinely
-          involved in your child’s program — not a signature on a report.
-        </p>
-        <p>
-          Every program is written for one child. Goals are chosen with families, not handed to
-          them. And progress is measured continuously, so a plan that stops working gets changed
-          instead of repeated.
-        </p>
-        <div class="flex flex-wrap gap-3 pt-2">
-          <a href="/about/" class="btn-ghost">Meet the founders<Icon name="arrow" class="h-4 w-4" /></a>
-          <a href="/getting-started/" class="btn-ghost">How to get started</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════ SERVICES ══════════ -->
-  <section class="relative bg-sand-100 py-20 lg:py-28">
-    <div class="container-page">
-      <div class="max-w-2xl" data-reveal>
-        <p class="eyebrow">Our services</p>
-        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
-          Everything your child needs, under one clinical standard.
-        </h2>
-      </div>
-
-      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {services.map((s, i) => (
+          <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 26px;font-size:14px;font-weight:500;flex:1 1 auto;justify-content:center">
+            <a href="#approach" style="color:#3A4859">Our Approach</a>
+            <a href="#services" style="color:#3A4859">Services</a>
+            <a href="#process" style="color:#3A4859">Getting Started</a>
+            <a href="#team" style="color:#3A4859">Our Team</a>
+            <a href="#careers" style="color:#3A4859">Careers</a>
+          </nav>
           <a
-            href={`/services/#${s.slug}`}
-            class="card-hover group flex flex-col"
-            data-reveal
-            style={`--reveal-delay:${i * 70}ms`}
+            href="#contact"
+            class="h-navy-cta"
+            style="background:#0E2440;color:#FBF9F5;padding:13px 24px;font-size:14px;font-weight:500;border-radius:2px;white-space:nowrap"
+            >Schedule a Consultation</a
           >
-            <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-navy-800 text-white transition-colors duration-300 group-hover:bg-leaf-600">
-              <Icon name={s.icon} class="h-5.5 w-5.5" />
-            </span>
-            <h3 class="mt-6 text-xl">{s.title}</h3>
-            <p class="mt-3 flex-1 text-[0.97rem] leading-relaxed text-ink-600">{s.short}</p>
-            <span class="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-leaf-700">
-              Learn more
-              <Icon name="arrow" class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-            </span>
-          </a>
-        ))}
+        </div>
+      </header>
 
-        <div class="flex flex-col justify-between rounded-3xl bg-navy-800 p-7 text-white" data-reveal style="--reveal-delay:350ms">
-          <div>
-            <h3 class="text-xl !text-white">Not sure where to start?</h3>
-            <p class="mt-3 text-[0.97rem] leading-relaxed text-navy-200">
-              Tell us about your child and we’ll tell you honestly whether ABA — and whether Rise —
-              is the right fit.
+      <!-- ── Hero ────────────────────────────────────────────────── -->
+      <section id="top" style="background:#0E2440;color:#FBF9F5;position:relative;overflow:hidden;isolation:isolate">
+        <img
+          src="/images/lobby-hero.webp"
+          alt="Reception area at the Rise Behavior Therapy clinic in Miami Lakes"
+          fetchpriority="high"
+          style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 38%;filter:saturate(0.95) contrast(1.02)"
+        />
+        <div style="position:absolute;inset:0;background:linear-gradient(96deg,rgba(9,24,43,0.96) 0%,rgba(9,24,43,0.9) 30%,rgba(9,24,43,0.62) 48%,rgba(9,24,43,0.14) 70%,rgba(9,24,43,0.1) 100%)"></div>
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,24,43,0.4) 0%,transparent 24%,rgba(9,24,43,0.25) 100%)"></div>
+        <div style="position:relative;max-width:1240px;margin:0 auto;padding:112px 32px 104px">
+          <div style="max-width:min(600px,100%);display:flex;flex-direction:column;animation:riseUp 0.7s ease-out both">
+            <div style="display:flex;align-items:center;gap:14px;margin-bottom:30px">
+              <span style="width:44px;height:1px;background:#1C7A45;display:block;flex:none"></span>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7FC79B">Applied Behavior Analysis &nbsp;·&nbsp; Miami Lakes, FL</span>
+            </div>
+            <h1 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(38px,4.9vw,68px);line-height:1.05;letter-spacing:-0.02em;margin:0 0 26px;text-wrap:balance;text-shadow:0 2px 26px rgba(9,24,43,0.55)">
+              Evidence-based care, measured in <em style="font-style:italic;color:#9FD4B4">real progress</em>.
+            </h1>
+            <p style="font-size:18.5px;line-height:1.62;color:#C4D0DE;margin:0 0 38px;text-wrap:pretty;text-shadow:0 1px 16px rgba(9,24,43,0.6)">
+              Rise Behavior Therapy delivers individualized ABA programs for children, adolescents, and adults
+              across Florida and Virginia. Every plan is written, supervised, and measured by a Board Certified Behavior
+              Analyst.
+            </p>
+            <div style="display:flex;flex-wrap:wrap;gap:14px">
+              <a href="#contact" class="h-green-btn" style="background:#1C7A45;color:#fff;padding:17px 32px;font-size:15px;font-weight:500;border-radius:2px">Schedule a Consultation</a>
+              <a href={phoneHref} class="h-outline" style="border:1px solid rgba(251,249,245,0.45);color:#FBF9F5;padding:17px 32px;font-size:15px;font-weight:500;border-radius:2px;backdrop-filter:blur(3px)">Call {phoneDisplay}</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Stat strip ──────────────────────────────────────────── -->
+      <section style="background:#0E2440;color:#FBF9F5;border-top:1px solid rgba(251,249,245,0.14)">
+        <div style="max-width:1240px;margin:0 auto;padding:0 32px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:28px 48px;padding:44px 0 48px">
+            <div>
+              <div style="font-family:'Newsreader',serif;font-size:30px;line-height:1;margin-bottom:8px">BCBA</div>
+              <div style="font-size:13px;color:#93A3B6;line-height:1.55">Supervised treatment plans and monthly clinical review</div>
+            </div>
+            <div>
+              <div style="font-family:'Newsreader',serif;font-size:30px;line-height:1;margin-bottom:8px">1:1</div>
+              <div style="font-size:13px;color:#93A3B6;line-height:1.55">A dedicated technician paired with every client</div>
+            </div>
+            <div>
+              <div style="font-family:'Newsreader',serif;font-size:30px;line-height:1;margin-bottom:8px">3</div>
+              <div style="font-size:13px;color:#93A3B6;line-height:1.55">Settings supported: home, clinic, and school</div>
+            </div>
+            <div>
+              <div style="font-family:'Newsreader',serif;font-size:30px;line-height:1;margin-bottom:8px">2–4</div>
+              <div style="font-size:13px;color:#93A3B6;line-height:1.55">Weeks from first call to first session, typically</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Credentials strip ───────────────────────────────────── -->
+      <section style="background:#FBF9F5;border-bottom:1px solid #E6E0D6">
+        <div style="max-width:1240px;margin:0 auto;padding:26px 32px;display:flex;flex-wrap:wrap;align-items:center;gap:18px 44px;justify-content:space-between">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:#8A8578">Credentials &amp; coverage</span>
+          <div style="display:flex;flex-wrap:wrap;gap:14px 34px;align-items:center;font-size:13.5px;color:#3A4859;font-weight:500">
+            <span>Board Certified Behavior Analysts</span>
+            <span style="color:#D6CFC2">/</span>
+            <span>Registered Behavior Technicians</span>
+            <span style="color:#D6CFC2">/</span>
+            <span>Most major insurance plans</span>
+            <span style="color:#D6CFC2">/</span>
+            <span>Medicaid &amp; private pay</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 01 Approach ─────────────────────────────────────────── -->
+      <section id="approach" style="max-width:1240px;margin:0 auto;padding:120px 32px 110px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:56px 80px;align-items:start">
+          <div class="sticky-col" style="position:sticky;top:120px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#1C7A45;margin-bottom:22px">01 — Our Approach</div>
+            <h2 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(31px,3.7vw,46px);line-height:1.12;letter-spacing:-0.015em;margin:0 0 24px">Personalized care, held to a clinical standard.</h2>
+            <p style="font-size:17px;line-height:1.68;color:#5A6472;margin:0 0 20px;text-wrap:pretty">
+              Our philosophy is centered on individualized care that addresses the unique needs of every client.
+              We take a holistic view — physical, emotional, and behavioral wellbeing considered together — and
+              translate it into a treatment plan with defined targets and observable outcomes.
+            </p>
+            <p style="font-size:17px;line-height:1.68;color:#5A6472;margin:0">
+              Families are part of the clinical team. You receive the same data we do, and you learn the same
+              strategies your child's technician uses.
             </p>
           </div>
-          <a href="/contact/" class="btn-accent mt-7 w-full">Talk to a BCBA</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════ SETTINGS ══════════ -->
-  <section class="container-page py-20 lg:py-28">
-    <div class="grid gap-4 lg:grid-cols-[0.8fr_1.2fr] lg:items-end lg:gap-16">
-      <div data-reveal>
-        <p class="eyebrow">Where we work</p>
-        <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">
-          Therapy that meets your child where they are.
-        </h2>
-      </div>
-      <p class="text-lg leading-relaxed text-ink-600 lg:pb-2" data-reveal style="--reveal-delay:80ms">
-        {facts.serviceAreaLong} Skills only matter if they hold up in real life — so we teach
-        them in the settings where your child actually lives, learns and plays.
-      </p>
-    </div>
-
-    <div class="mt-14 grid gap-5 md:grid-cols-3">
-      {settings.map((s, i) => (
-        <article
-          class="group relative overflow-hidden rounded-3xl bg-navy-50/70 p-8 ring-1 ring-navy-100 transition-all duration-500 hover:bg-navy-800 hover:shadow-lift"
-          data-reveal
-          style={`--reveal-delay:${i * 90}ms`}
-        >
-          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-navy-800 ring-1 ring-navy-100 transition-colors duration-500 group-hover:bg-leaf-500 group-hover:text-white group-hover:ring-leaf-500">
-            <Icon name={s.icon} class="h-5.5 w-5.5" />
-          </span>
-          <p class="mt-6 text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-leaf-700 transition-colors duration-500 group-hover:text-leaf-300">
-            {s.short}
-          </p>
-          <h3 class="mt-2 text-2xl transition-colors duration-500 group-hover:!text-white">{s.title}</h3>
-          <p class="mt-4 leading-relaxed text-ink-600 transition-colors duration-500 group-hover:text-navy-200">
-            {s.body}
-          </p>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <!-- ══════════ PROCESS ══════════ -->
-  <section class="relative overflow-hidden bg-navy-900 py-20 text-white lg:py-28">
-    <div class="pointer-events-none absolute inset-0 grid-lines opacity-50 mix-blend-overlay"></div>
-    <div class="pointer-events-none absolute -right-32 top-10 h-[30rem] w-[30rem] rounded-full bg-leaf-500/12 blur-3xl"></div>
-
-    <div class="container-page relative">
-      <div class="max-w-2xl" data-reveal>
-        <p class="eyebrow !text-leaf-300">Getting started</p>
-        <h2 class="mt-4 text-3xl !text-white sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
-          Four steps. No maze.
-        </h2>
-        <p class="mt-5 text-lg leading-relaxed text-navy-200">
-          Starting ABA should not feel like paperwork. Here is exactly what happens from the
-          moment you reach out.
-        </p>
-      </div>
-
-      <ol class="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
-        {steps.map((s, i) => (
-          <li class="relative" data-reveal style={`--reveal-delay:${i * 90}ms`}>
-            <div class="flex items-center gap-4">
-              <span class="font-serif text-4xl text-leaf-400">{s.n}</span>
-              <span class="h-px flex-1 bg-gradient-to-r from-white/25 to-transparent"></span>
+          <div style="display:flex;flex-direction:column">
+            <div style="border-top:1px solid #E6E0D6;padding:32px 0;display:grid;grid-template-columns:64px 1fr;gap:24px">
+              <div style="font-family:'Newsreader',serif;font-size:20px;color:#1C7A45">I.</div>
+              <div>
+                <h3 style="font-size:19px;font-weight:600;margin:0 0 10px;letter-spacing:-0.01em">Assessment before intervention</h3>
+                <p style="font-size:15.5px;line-height:1.65;color:#5A6472;margin:0">We begin with a functional behavior assessment and skills baseline. No goal enters a treatment plan without a measurable starting point.</p>
+              </div>
             </div>
-            <h3 class="mt-5 text-xl !text-white">{s.title}</h3>
-            <p class="mt-3 leading-relaxed text-navy-200">{s.body}</p>
-          </li>
-        ))}
-      </ol>
-
-      <div class="mt-16" data-reveal>
-        <a href="/getting-started/" class="btn-accent">
-          See the full process<Icon name="arrow" class="h-4 w-4" />
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══════════ FOUNDERS ══════════ -->
-  <section class="container-page py-20 lg:py-28">
-    <div class="max-w-2xl" data-reveal>
-      <p class="eyebrow">Who you’ll be working with</p>
-      <h2 class="mt-4 text-3xl sm:text-4xl lg:text-[2.75rem] lg:leading-[1.1]">
-        Owned and led by practicing BCBAs.
-      </h2>
-      <p class="mt-5 text-lg leading-relaxed text-ink-600">
-        Rise is not a franchise and not a private-equity roll-up. It is two Board Certified
-        Behavior Analysts who are accountable for every program that leaves this practice.
-      </p>
-    </div>
-
-    <div class="mt-14 grid gap-6 md:grid-cols-2">
-      {founders.map((f, i) => (
-        <article class="card overflow-hidden !p-0" data-reveal style={`--reveal-delay:${i * 110}ms`}>
-          <Image
-            src={photos[f.photo]}
-            alt={`${f.name}, ${f.credentials}`}
-            widths={[420, 700, 900]}
-            sizes="(min-width: 768px) 44vw, 92vw"
-            class="aspect-[5/4] w-full object-cover object-top"
-            loading="lazy"
-          />
-          <div class="p-7 lg:p-8">
-            <p class="text-[0.72rem] font-semibold uppercase tracking-[0.16em] text-leaf-700">{f.role}</p>
-            <h3 class="mt-2 text-2xl">{f.name}</h3>
-            <p class="mt-1 text-sm font-medium text-ink-500">{f.credentials}</p>
-            <p class="mt-5 leading-relaxed text-ink-600">{f.bio[0]}</p>
+            <div style="border-top:1px solid #E6E0D6;padding:32px 0;display:grid;grid-template-columns:64px 1fr;gap:24px">
+              <div style="font-family:'Newsreader',serif;font-size:20px;color:#1C7A45">II.</div>
+              <div>
+                <h3 style="font-size:19px;font-weight:600;margin:0 0 10px;letter-spacing:-0.01em">Naturalistic, dignity-first teaching</h3>
+                <p style="font-size:15.5px;line-height:1.65;color:#5A6472;margin:0">Skills are taught where they are used — at the table, in the classroom, at the grocery store. We build on motivation and assent rather than compliance.</p>
+              </div>
+            </div>
+            <div style="border-top:1px solid #E6E0D6;padding:32px 0;display:grid;grid-template-columns:64px 1fr;gap:24px">
+              <div style="font-family:'Newsreader',serif;font-size:20px;color:#1C7A45">III.</div>
+              <div>
+                <h3 style="font-size:19px;font-weight:600;margin:0 0 10px;letter-spacing:-0.01em">Data reviewed every session</h3>
+                <p style="font-size:15.5px;line-height:1.65;color:#5A6472;margin:0">Technicians record data continuously; a BCBA reviews trends and adjusts programming. If a target isn't moving, the intervention changes — not the expectation.</p>
+              </div>
+            </div>
+            <div style="border-top:1px solid #E6E0D6;border-bottom:1px solid #E6E0D6;padding:32px 0;display:grid;grid-template-columns:64px 1fr;gap:24px">
+              <div style="font-family:'Newsreader',serif;font-size:20px;color:#1C7A45">IV.</div>
+              <div>
+                <h3 style="font-size:19px;font-weight:600;margin:0 0 10px;letter-spacing:-0.01em">Generalization is the goal</h3>
+                <p style="font-size:15.5px;line-height:1.65;color:#5A6472;margin:0">A skill counts when it holds across people, places, and time. We plan for fading support from the first session, and we discharge when independence is real.</p>
+              </div>
+            </div>
           </div>
-        </article>
-      ))}
-    </div>
-
-    <div class="mt-10" data-reveal>
-      <a href="/about/" class="btn-ghost">Read more about Rise<Icon name="arrow" class="h-4 w-4" /></a>
-    </div>
-  </section>
-
-  <!-- ══════════ VALUES BAND ══════════ -->
-  <section class="border-y border-navy-100 bg-sand-100 py-14">
-    <div class="container-page grid gap-8 text-center sm:grid-cols-3">
-      {[
-        { t: 'Empowering minds.', d: 'Skills that build real independence.' },
-        { t: 'Inspiring growth.', d: 'Progress you can see in the data and at home.' },
-        { t: 'Transforming futures.', d: 'Outcomes that outlast the therapy hours.' },
-      ].map((v, i) => (
-        <div data-reveal style={`--reveal-delay:${i * 90}ms`}>
-          <p class="font-serif text-2xl text-navy-800">{v.t}</p>
-          <p class="mt-2 text-[0.95rem] text-ink-600">{v.d}</p>
         </div>
-      ))}
+      </section>
+
+      <!-- ── 02 Services ─────────────────────────────────────────── -->
+      <section id="services" style="background:#0E2440;color:#FBF9F5;padding:110px 0">
+        <div style="max-width:1240px;margin:0 auto;padding:0 32px">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:64px">
+            <div style="max-width:640px">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#7FC79B;margin-bottom:22px">02 — Services</div>
+              <h2 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(31px,3.7vw,46px);line-height:1.12;letter-spacing:-0.015em;margin:0">Comprehensive services under one clinical team.</h2>
+            </div>
+            <p style="font-size:16px;line-height:1.65;color:#93A3B6;max-width:34ch;margin:0">Coordinated care means one set of goals, one data system, and one point of contact for your family.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:1px;background:rgba(251,249,245,0.14)">
+            <div class="h-svc" style="background:#0E2440;padding:38px 30px 44px;min-height:250px;display:flex;flex-direction:column">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7FC79B;margin-bottom:auto;letter-spacing:0.12em">IN HOME</div>
+              <h3 style="font-family:'Newsreader',serif;font-size:27px;font-weight:400;margin:26px 0 12px;line-height:1.15">Home-Based ABA</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:#A9B8CA;margin:0">Therapy in the environment where most daily routines happen, with caregivers involved directly.</p>
+            </div>
+            <div class="h-svc" style="background:#0E2440;padding:38px 30px 44px;min-height:250px;display:flex;flex-direction:column">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7FC79B;margin-bottom:auto;letter-spacing:0.12em">IN CLINIC</div>
+              <h3 style="font-family:'Newsreader',serif;font-size:27px;font-weight:400;margin:26px 0 12px;line-height:1.15">Center-Based ABA</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:#A9B8CA;margin:0">Structured sessions in our Miami Lakes clinic, with peer groups for social skill building.</p>
+            </div>
+            <div class="h-svc" style="background:#0E2440;padding:38px 30px 44px;min-height:250px;display:flex;flex-direction:column">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7FC79B;margin-bottom:auto;letter-spacing:0.12em">IN SCHOOL</div>
+              <h3 style="font-family:'Newsreader',serif;font-size:27px;font-weight:400;margin:26px 0 12px;line-height:1.15">School Support</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:#A9B8CA;margin:0">Classroom shadowing and consultation with teachers and IEP teams to keep goals aligned.</p>
+            </div>
+            <div class="h-svc" style="background:#0E2440;padding:38px 30px 44px;min-height:250px;display:flex;flex-direction:column">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7FC79B;margin-bottom:auto;letter-spacing:0.12em">DIAGNOSTIC</div>
+              <h3 style="font-family:'Newsreader',serif;font-size:27px;font-weight:400;margin:26px 0 12px;line-height:1.15">Assessments</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:#A9B8CA;margin:0">Functional behavior assessments and skills evaluations that establish the baseline for care.</p>
+            </div>
+            <div class="h-svc" style="background:#0E2440;padding:38px 30px 44px;min-height:250px;display:flex;flex-direction:column">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7FC79B;margin-bottom:auto;letter-spacing:0.12em">CAREGIVERS</div>
+              <h3 style="font-family:'Newsreader',serif;font-size:27px;font-weight:400;margin:26px 0 12px;line-height:1.15">Parent Training</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:#A9B8CA;margin:0">Structured coaching so the strategies that work in session also work on a Tuesday night.</p>
+            </div>
+            <div class="h-svc" style="background:#0E2440;padding:38px 30px 44px;min-height:250px;display:flex;flex-direction:column">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7FC79B;margin-bottom:auto;letter-spacing:0.12em">COMMUNICATION</div>
+              <h3 style="font-family:'Newsreader',serif;font-size:27px;font-weight:400;margin:26px 0 12px;line-height:1.15">Speech Therapy</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:#A9B8CA;margin:0">Language, articulation, and AAC support, coordinated with behavioral programming.</p>
+            </div>
+            <div class="h-svc" style="background:#0E2440;padding:38px 30px 44px;min-height:250px;display:flex;flex-direction:column">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#7FC79B;margin-bottom:auto;letter-spacing:0.12em">DAILY LIVING</div>
+              <h3 style="font-family:'Newsreader',serif;font-size:27px;font-weight:400;margin:26px 0 12px;line-height:1.15">Occupational Therapy</h3>
+              <p style="font-size:14.5px;line-height:1.6;color:#A9B8CA;margin:0">Motor skills, sensory regulation, and independence in self-care routines.</p>
+            </div>
+            <div class="h-svc-green" style="background:#1C7A45;padding:38px 30px 44px;min-height:250px;display:flex;flex-direction:column;justify-content:space-between">
+              <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#CBEBD8;letter-spacing:0.12em">NOT SURE WHERE TO START?</div>
+              <div>
+                <h3 style="font-family:'Newsreader',serif;font-size:27px;font-weight:400;margin:26px 0 14px;line-height:1.15">Talk to a BCBA</h3>
+                <a href="#contact" style="font-size:14.5px;color:#fff;border-bottom:1px solid rgba(255,255,255,0.5);padding-bottom:3px">Request a consultation</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 03 Getting started ──────────────────────────────────── -->
+      <section id="process" style="max-width:1240px;margin:0 auto;padding:120px 32px">
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:70px">
+          <div style="max-width:620px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#1C7A45;margin-bottom:22px">03 — Getting Started</div>
+            <h2 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(31px,3.7vw,46px);line-height:1.12;letter-spacing:-0.015em;margin:0">From first call to first session.</h2>
+          </div>
+          <div style="font-size:14px;color:#8A8578;font-family:'IBM Plex Mono',monospace">Typical timeline: 2–4 weeks</div>
+        </div>
+        <div class="steps" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:0;border-top:1px solid #0E2440">
+          <div style="padding:34px 26px 40px 0;border-right:1px solid #E6E0D6">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1C7A45;margin-bottom:20px">STEP 01</div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;letter-spacing:-0.01em">Consultation</h3>
+            <p style="font-size:15px;line-height:1.6;color:#5A6472;margin:0">A short call to understand your concerns, goals, and schedule. No cost, no obligation.</p>
+          </div>
+          <div style="padding:34px 28px 40px;border-right:1px solid #E6E0D6">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1C7A45;margin-bottom:20px">STEP 02</div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;letter-spacing:-0.01em">Insurance &amp; intake</h3>
+            <p style="font-size:15px;line-height:1.6;color:#5A6472;margin:0">We verify your benefits, confirm authorization, and collect the diagnostic documentation needed.</p>
+          </div>
+          <div style="padding:34px 28px 40px;border-right:1px solid #E6E0D6">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1C7A45;margin-bottom:20px">STEP 03</div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;letter-spacing:-0.01em">Assessment</h3>
+            <p style="font-size:15px;line-height:1.6;color:#5A6472;margin:0">A BCBA completes the assessment and writes a treatment plan with you, target by target.</p>
+          </div>
+          <div style="padding:34px 0 40px 26px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:#1C7A45;margin-bottom:20px">STEP 04</div>
+            <h3 style="font-size:20px;font-weight:600;margin:0 0 12px;letter-spacing:-0.01em">Therapy begins</h3>
+            <p style="font-size:15px;line-height:1.6;color:#5A6472;margin:0">Sessions start with your assigned technician, with ongoing BCBA supervision and progress reviews.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 04 Team ─────────────────────────────────────────────── -->
+      <section id="team" style="background:#F3EFE8;padding:110px 0;border-top:1px solid #E6E0D6;border-bottom:1px solid #E6E0D6">
+        <div style="max-width:1240px;margin:0 auto;padding:0 32px">
+          <div style="max-width:620px;margin-bottom:64px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#1C7A45;margin-bottom:22px">04 — Our Team</div>
+            <h2 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(31px,3.7vw,46px);line-height:1.12;letter-spacing:-0.015em;margin:0 0 20px">The clinicians behind every plan.</h2>
+            <p style="font-size:17px;line-height:1.68;color:#5A6472;margin:0">Rise was founded by two clinicians who wanted families to have direct access to the person designing their child's program — not a case number in a queue.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:32px">
+            <article style="background:#FBF9F5;border:1px solid #E6E0D6">
+              <div style="aspect-ratio:4/5;overflow:hidden;background:#16375E">
+                <img src="/images/founder-1.webp" alt="Mauricio Marti Padron, BCBA — Co-Founder and Clinical Director of Rise Behavior Therapy" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:64% 30%" />
+              </div>
+              <div style="padding:32px 34px 36px">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:#1C7A45;margin-bottom:12px">Co-Founder &amp; Clinical Director · BCBA</div>
+                <h3 style="font-family:'Newsreader',serif;font-size:30px;font-weight:400;margin:0 0 14px;letter-spacing:-0.01em">Mauricio Marti Padron</h3>
+                <p style="font-size:15.5px;line-height:1.65;color:#5A6472;margin:0">Oversees clinical programming, supervision, and quality of care across all service lines. Leads treatment planning and BCBA training at Rise.</p>
+              </div>
+            </article>
+            <article style="background:#FBF9F5;border:1px solid #E6E0D6">
+              <div style="aspect-ratio:4/5;overflow:hidden;background:#16375E">
+                <img src="/images/founder-2.webp" alt="Adamarys Valdes Martinez, BCBA — Co-Founder of Rise Behavior Therapy" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:62% 26%" />
+              </div>
+              <div style="padding:32px 34px 36px">
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:#1C7A45;margin-bottom:12px">Co-Founder &amp; Director of Operations · BCBA</div>
+                <h3 style="font-family:'Newsreader',serif;font-size:30px;font-weight:400;margin:0 0 14px;letter-spacing:-0.01em">Adamarys Valdes Martinez</h3>
+                <p style="font-size:15.5px;line-height:1.65;color:#5A6472;margin:0">Leads intake, insurance authorization, and family coordination — the work that determines how quickly a family can begin therapy.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 05 Clinic ───────────────────────────────────────────── -->
+      <section style="max-width:1240px;margin:0 auto;padding:110px 32px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:48px 64px;align-items:center">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#1C7A45;margin-bottom:22px">05 — Our Clinic</div>
+            <h2 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(30px,3.5vw,44px);line-height:1.12;letter-spacing:-0.015em;margin:0 0 22px">A space built for focus and for play.</h2>
+            <p style="font-size:17px;line-height:1.68;color:#5A6472;margin:0 0 32px;text-wrap:pretty">Our Miami Lakes center includes individual therapy rooms, a group space for social skills, and a caregiver observation area. Families are welcome during normal business hours — come see it before you commit.</p>
+            <div style="display:flex;flex-direction:column;gap:14px;border-top:1px solid #E6E0D6;padding-top:26px">
+              <div style="display:flex;gap:16px;font-size:15px"><span style="color:#1C7A45;font-family:'IBM Plex Mono',monospace;font-size:12px;width:70px;flex:none;padding-top:3px">ADDRESS</span><span style="color:#3A4859">5901 NW 151st Street, Ste 206<br />Miami Lakes, FL 33014</span></div>
+              <div style="display:flex;gap:16px;font-size:15px"><span style="color:#1C7A45;font-family:'IBM Plex Mono',monospace;font-size:12px;width:70px;flex:none;padding-top:3px">HOURS</span><span style="color:#3A4859">Monday – Friday, 9:00 am – 5:00 pm</span></div>
+              <div style="display:flex;gap:16px;font-size:15px"><span style="color:#1C7A45;font-family:'IBM Plex Mono',monospace;font-size:12px;width:70px;flex:none;padding-top:3px">PHONE</span><a href={phoneHref} style="color:#0E2440;font-weight:500">{phoneDisplay}</a></div>
+            </div>
+          </div>
+          <div class="clinic-grid" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:280px 176px;gap:14px;min-width:0">
+            <figure style="grid-column:span 2;position:relative;min-width:0;overflow:hidden;margin:0;background:#16375E">
+              <img src="/images/session.webp" alt="A therapist working one-on-one with a child" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 48%" />
+            </figure>
+            <figure style="position:relative;min-width:0;overflow:hidden;margin:0;background:#16375E">
+              <img src="/images/playroom.webp" alt="Play and social skills room" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 60%" />
+            </figure>
+            <figure style="position:relative;min-width:0;overflow:hidden;margin:0;background:#16375E">
+              <img src="/images/therapy-room.webp" alt="Individual therapy room" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 62%" />
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Careers ─────────────────────────────────────────────── -->
+      <section id="careers" style="background:#16375E;color:#FBF9F5;padding:84px 0">
+        <div style="max-width:1240px;margin:0 auto;padding:0 32px;display:flex;flex-wrap:wrap;gap:32px 56px;align-items:center;justify-content:space-between">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#9FD4B4;margin-bottom:18px">Careers</div>
+            <h2 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(28px,3vw,38px);line-height:1.15;margin:0 0 16px">We're hiring BCBAs and RBTs in Florida and Virginia.</h2>
+            <p style="font-size:16.5px;line-height:1.65;color:#B9C6D6;max-width:62ch;margin:0">Manageable caseloads, real supervision hours, and paid administrative time. If you want to practice ABA the way it was taught to you, we'd like to talk.</p>
+          </div>
+          <a href="#contact" class="h-cream-btn" style="background:#FBF9F5;color:#0E2440;padding:17px 32px;font-size:15px;font-weight:500;border-radius:2px;white-space:nowrap">View openings</a>
+        </div>
+      </section>
+
+      <!-- ── 06 Contact ──────────────────────────────────────────── -->
+      <section id="contact" style="max-width:1240px;margin:0 auto;padding:110px 32px 120px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(370px,1fr));gap:56px 80px;align-items:start">
+          <div>
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#1C7A45;margin-bottom:22px">06 — Contact</div>
+            <h2 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(34px,4vw,50px);line-height:1.08;letter-spacing:-0.02em;margin:0 0 24px">Start with a conversation.</h2>
+            <p style="font-size:17.5px;line-height:1.66;color:#5A6472;margin:0 0 40px;max-width:46ch;text-wrap:pretty">Tell us a little about your family and we'll call you back within one business day. If you'd rather speak to someone now, call us directly.</p>
+            <a href={phoneHref} class="h-call" style="display:inline-flex;align-items:baseline;gap:14px;border-top:1px solid #0E2440;border-bottom:1px solid #E6E0D6;padding:22px 0;width:100%;color:#0E2440">
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.16em;color:#8A8578">CALL</span>
+              <span style="font-family:'Newsreader',serif;font-size:clamp(28px,3.2vw,40px);line-height:1;letter-spacing:-0.01em">{phoneDisplay}</span>
+            </a>
+            <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px 40px">
+              <div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8578;margin-bottom:10px">VISIT</div>
+                <div style="font-size:15.5px;line-height:1.6;color:#3A4859">5901 NW 151st Street<br />Ste 206, Miami Lakes<br />Florida 33014</div>
+              </div>
+              <div>
+                <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.16em;color:#8A8578;margin-bottom:10px">HOURS</div>
+                <div style="font-size:15.5px;line-height:1.6;color:#3A4859">Mon – Fri &nbsp;9:00 – 17:00<br />Sat – Sun &nbsp;Closed</div>
+              </div>
+            </div>
+          </div>
+
+          <form
+            id="lead-form"
+            action="https://api.web3forms.com/submit"
+            method="POST"
+            data-fallback-email={contact.email}
+            data-has-key={forms.accessKey ? 'true' : 'false'}
+            style="background:#0E2440;padding:44px 44px 48px;color:#FBF9F5;min-width:0"
+          >
+            <input type="hidden" name="access_key" value={forms.accessKey} />
+            <input type="hidden" name="subject" value="New consultation request — risebehaviortherapy.com" />
+            <input type="hidden" name="from_name" value="Rise Behavior Therapy website" />
+            <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" aria-hidden="true" />
+
+            <h3 style="font-family:'Newsreader',serif;font-size:26px;font-weight:400;margin:0 0 8px">Request a consultation</h3>
+            <p style="font-size:14px;color:#93A3B6;margin:0 0 32px">All fields marked with * are required.</p>
+            <div style="display:flex;flex-direction:column;gap:22px">
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#9FB0C4">Full name *</span>
+                <input class="f-underline" name="name" required type="text" autocomplete="name" style="background:transparent;border:0;border-bottom:1px solid rgba(251,249,245,0.28);color:#FBF9F5;font-family:inherit;font-size:16px;padding:8px 0;outline:none;width:100%;min-width:0" />
+              </label>
+              <div class="two-up" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;min-width:0">
+                <label style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                  <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#9FB0C4">Email *</span>
+                  <input class="f-underline" name="email" required type="email" autocomplete="email" style="background:transparent;border:0;border-bottom:1px solid rgba(251,249,245,0.28);color:#FBF9F5;font-family:inherit;font-size:16px;padding:8px 0;outline:none;width:100%;min-width:0" />
+                </label>
+                <label style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                  <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#9FB0C4">Phone</span>
+                  <input class="f-underline" name="phone" type="tel" autocomplete="tel" style="background:transparent;border:0;border-bottom:1px solid rgba(251,249,245,0.28);color:#FBF9F5;font-family:inherit;font-size:16px;padding:8px 0;outline:none;width:100%;min-width:0" />
+                </label>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#9FB0C4">I'm reaching out about</span>
+                <select class="f-underline" name="topic" style="background:transparent;border:0;border-bottom:1px solid rgba(251,249,245,0.28);color:#FBF9F5;font-family:inherit;font-size:16px;padding:8px 0;outline:none;width:100%;min-width:0">
+                  <option style="color:#0E2440">ABA services for my child</option>
+                  <option style="color:#0E2440">Services for an adolescent or adult</option>
+                  <option style="color:#0E2440">An assessment or diagnosis</option>
+                  <option style="color:#0E2440">A professional referral</option>
+                  <option style="color:#0E2440">Insurance verification</option>
+                  <option style="color:#0E2440">Employment at Rise</option>
+                </select>
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px;min-width:0">
+                <span style="font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#9FB0C4">How can we help?</span>
+                <textarea class="f-underline" name="message" rows="3" style="background:transparent;border:0;border-bottom:1px solid rgba(251,249,245,0.28);color:#FBF9F5;font-family:inherit;font-size:16px;padding:8px 0;outline:none;resize:vertical;width:100%;min-width:0"></textarea>
+              </label>
+            </div>
+            <button type="submit" class="h-green-btn" style="margin-top:34px;width:100%;background:#1C7A45;color:#fff;border:0;padding:17px;font-family:inherit;font-size:15px;font-weight:500;cursor:pointer;border-radius:2px">
+              <span data-submit-label>Send request</span>
+            </button>
+            <p data-form-status role="status" aria-live="polite" style="display:none;font-size:13.5px;line-height:1.6;margin:18px 0 0"></p>
+            <p style="font-size:12px;line-height:1.6;color:#7E8FA3;margin:20px 0 0">Submitting this form does not establish a clinical relationship. For emergencies, call 911.</p>
+          </form>
+        </div>
+      </section>
+
+      <!-- ── Footer ──────────────────────────────────────────────── -->
+      <footer style="background:#0A1A2F;color:#8FA0B4;padding:64px 0 32px">
+        <div style="max-width:1240px;margin:0 auto;padding:0 32px">
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px 48px;padding-bottom:48px;border-bottom:1px solid rgba(251,249,245,0.12)">
+            <div>
+              <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:18px">
+                <span style="font-family:'Newsreader',serif;font-size:24px;letter-spacing:0.34em;color:#FBF9F5;line-height:1">RISE</span>
+                <span style="font-size:9px;letter-spacing:0.24em;color:#7FC79B;font-weight:600;text-transform:uppercase">Behavior Therapy</span>
+              </div>
+              <p style="font-size:14.5px;line-height:1.6;margin:0;max-width:32ch">Building potential. Inspiring futures. Applied behavior analysis in Miami Lakes, Florida.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;font-size:14.5px">
+              <span style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:#5E7085;font-family:'IBM Plex Mono',monospace">Services</span>
+              <a href="#services" style="color:#8FA0B4">Home-based ABA</a>
+              <a href="#services" style="color:#8FA0B4">Center-based ABA</a>
+              <a href="#services" style="color:#8FA0B4">School support</a>
+              <a href="#services" style="color:#8FA0B4">Parent training</a>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;font-size:14.5px">
+              <span style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:#5E7085;font-family:'IBM Plex Mono',monospace">Practice</span>
+              <a href="#approach" style="color:#8FA0B4">Our approach</a>
+              <a href="#team" style="color:#8FA0B4">Our team</a>
+              <a href="#process" style="color:#8FA0B4">Getting started</a>
+              <a href="#careers" style="color:#8FA0B4">Careers</a>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px;font-size:14.5px">
+              <span style="font-size:10.5px;letter-spacing:0.16em;text-transform:uppercase;color:#5E7085;font-family:'IBM Plex Mono',monospace">Contact</span>
+              <a href={phoneHref} style="color:#FBF9F5">{phoneDisplay}</a>
+              <span>5901 NW 151st St, Ste 206<br />Miami Lakes, FL 33014</span>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;padding-top:28px;font-size:12.5px;color:#5E7085">
+            <span>© 2026 Rise Behavior Therapy. All rights reserved.</span>
+            <span>Privacy Policy · Notice of Privacy Practices (HIPAA)</span>
+          </div>
+        </div>
+      </footer>
     </div>
-  </section>
 
-  <Faq limit={5} />
+    <script>
+      const form = document.querySelector('form[data-fallback-email]');
+      if (form) {
+        const status = form.querySelector('[data-form-status]');
+        const btn = form.querySelector('button[type="submit"]');
+        const labelEl = form.querySelector('[data-submit-label]');
+        const original = labelEl ? labelEl.textContent : 'Send request';
 
-  <CtaBand />
-</Base>
+        const show = (msg, ok) => {
+          if (!status) return;
+          status.textContent = msg;
+          status.style.display = 'block';
+          status.style.color = ok ? '#9FD4B4' : '#F4A9A9';
+        };
+
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          if (!form.reportValidity()) return;
+
+          const data = new FormData(form);
+          const hasKey = form.dataset.hasKey === 'true';
+
+          // No form backend configured yet — hand off to the visitor's email
+          // client so an inquiry is never silently lost.
+          if (!hasKey) {
+            const email = form.dataset.fallbackEmail;
+            const lines = [];
+            data.forEach((v, k) => {
+              if (['access_key', 'subject', 'from_name', 'botcheck'].includes(k)) return;
+              if (typeof v === 'string' && v.trim()) {
+                lines.push(k.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()) + ': ' + v);
+              }
+            });
+            const subject = String(data.get('subject') || 'Website inquiry');
+            window.location.href =
+              'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(lines.join('\n'));
+            show('Opening your email app so you can send this to us directly.', true);
+            return;
+          }
+
+          if (btn) btn.disabled = true;
+          if (labelEl) labelEl.textContent = 'Sending…';
+
+          try {
+            const res = await fetch(form.action, {
+              method: 'POST',
+              headers: { Accept: 'application/json' },
+              body: data,
+            });
+            if (res.ok) {
+              form.reset();
+              if (labelEl) labelEl.textContent = "Thank you — we'll be in touch";
+              show('Thank you — your message is on its way. We usually respond within one business day.', true);
+              return;
+            }
+            show('Something went wrong sending your message. Please call us at 786-566-5863.', false);
+          } catch {
+            show('We could not send your message. Please call us at 786-566-5863.', false);
+          } finally {
+            if (btn) btn.disabled = false;
+            if (labelEl && labelEl.textContent === 'Sending…') labelEl.textContent = original;
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

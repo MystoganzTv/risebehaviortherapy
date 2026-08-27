@@ -9,3 +9,7 @@ dist/
 !.env.example
 .setup-archive.tar.gz
 preview/
+
+# Design hand-off source (the original canvas export — 27 MB)
+design-source/*.zip
+design-source/*.tgz

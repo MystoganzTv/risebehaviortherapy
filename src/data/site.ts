@@ -76,7 +76,7 @@ export const founders = [
 export const facts = {
   ages: '2 to 20 years old',
   agesShort: 'Ages 2–20',
-  serviceArea: 'Florida',
+  serviceArea: 'Florida and Virginia',
   serviceAreaLong:
     'We serve families across Florida, with our center located in Miami Lakes.',
 };

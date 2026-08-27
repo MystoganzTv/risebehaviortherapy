@@ -1,0 +1,194 @@
+/*
+ * Rise Behavior Therapy — landing page styles.
+ *
+ * The design canvas expressed every rule as an inline style, plus custom
+ * `style-hover` / `style-focus` attributes that only the canvas editor
+ * understands. Those interaction states are re-expressed here as real CSS
+ * (inline styles win the cascade, hence !important), together with the
+ * canvas's own <helmet> block. Nothing else about the design is changed.
+ */
+
+body {
+  margin: 0;
+  background: #fbf9f5;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: #1c7a45;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #0e2440;
+}
+
+::selection {
+  background: #c9e2d2;
+}
+
+@keyframes riseUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  /* sticky header height, so anchored sections don't hide under it */
+  scroll-padding-top: 96px;
+}
+
+/* ── Interaction states (from the canvas's style-hover / style-focus) ───── */
+
+.h-navy-cta,
+.h-green-btn,
+.h-outline,
+.h-svc,
+.h-svc-green,
+.h-cream-btn,
+.h-call,
+.f-underline {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.h-navy-cta:hover {
+  background: #1c7a45 !important;
+  color: #fbf9f5 !important;
+}
+
+.h-green-btn:hover {
+  background: #166537 !important;
+  color: #fff !important;
+}
+
+.h-outline:hover {
+  border-color: #fbf9f5 !important;
+  color: #fbf9f5 !important;
+}
+
+.h-svc:hover {
+  background: #16375e !important;
+}
+
+.h-svc-green:hover {
+  background: #166537 !important;
+}
+
+.h-cream-btn:hover {
+  background: #9fd4b4 !important;
+  color: #0e2440 !important;
+}
+
+.h-call:hover {
+  border-bottom-color: #1c7a45 !important;
+}
+
+.f-underline:focus {
+  border-bottom-color: #7fc79b !important;
+}
+
+/* Nav and footer links carry an inline colour, so their hover needs the
+   same specificity boost the canvas's global `a:hover` rule intended. */
+header nav a:hover,
+footer a:hover {
+  color: #0e2440 !important;
+}
+
+footer a:hover {
+  color: #fbf9f5 !important;
+}
+
+/* Visible keyboard focus — the canvas set outline:none on form fields. */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid #7fc79b;
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+  background: #0e2440;
+  color: #fbf9f5;
+  padding: 12px 20px;
+  font: 500 14px/1 'IBM Plex Sans', system-ui, sans-serif;
+  border-radius: 2px;
+}
+
+/* ── Responsive adjustments ────────────────────────────────────────────── */
+
+/* The four-step row draws dividers between columns; once it wraps to a
+   single column those verticals and their asymmetric padding stop making
+   sense, so they become horizontal rules instead. */
+@media (max-width: 960px) {
+  .steps > div {
+    border-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-bottom: 1px solid #e6e0d6;
+  }
+  .steps > div:last-child {
+    border-bottom: 0;
+  }
+  .sticky-col {
+    position: static !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .clinic-grid {
+    grid-template-rows: 220px 150px !important;
+  }
+  .two-up {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* The canvas uses a flat 32px gutter; below 560px that leaves too little
+   measure for the type, so the gutter tightens. */
+@media (max-width: 560px) {
+  [style*='padding:112px 32px 104px'] {
+    padding: 76px 20px 72px !important;
+  }
+  [style*='max-width:1240px'] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  #contact form {
+    padding: 32px 24px 36px !important;
+  }
+}
