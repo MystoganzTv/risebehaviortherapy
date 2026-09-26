@@ -5,7 +5,7 @@
  * `style-hover` / `style-focus` attributes that only the canvas editor
  * understands. Those interaction states are re-expressed here as real CSS
  * (inline styles win the cascade, hence !important), together with the
- * canvas's own <helmet> block. Nothing else about the design is changed.
+ * canvas's own <helmet> block. Responsive rules adapt the layout for mobile.
  */
 
 body {
@@ -130,8 +130,192 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #7fc79b;
+  outline: 2px solid #7fc79b !important;
   outline-offset: 3px;
+}
+
+/* ── Services ─────────────────────────────────────────────────────────── */
+
+.services-section {
+  padding: 110px 0;
+  background: #0e2440;
+  color: #fbf9f5;
+}
+
+.services-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.services-intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 48px;
+  margin-bottom: 56px;
+}
+
+.service-eyebrow {
+  color: #9fd4b4;
+  font: 400 12px/1.6 'IBM Plex Mono', monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.services-intro h2 {
+  max-width: 19ch;
+  margin: 22px 0 0;
+  font: 300 clamp(31px, 3.7vw, 46px)/1.12 'Newsreader', serif;
+  letter-spacing: -0.015em;
+}
+
+.services-intro > p {
+  max-width: 38ch;
+  margin: 0;
+  color: #a9b8ca;
+  font-size: 17.5px;
+  line-height: 1.65;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 24px;
+}
+
+.service-card {
+  min-width: 0;
+  padding: 30px;
+  border: 1px solid #405269;
+  background: #132d4b;
+  scroll-margin-top: 24px;
+}
+
+.service-card:target {
+  border-color: #9fd4b4;
+}
+
+.service-card h3 {
+  min-height: 2.3em;
+  margin: 24px 0 14px;
+  font: 400 28px/1.15 'Newsreader', serif;
+}
+
+.service-card p {
+  margin: 0;
+  color: #bdcad9;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.service-card > p {
+  min-height: 6.6em;
+}
+
+.service-details {
+  margin-top: 26px;
+  border-top: 1px solid #405269;
+}
+
+.service-details summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 20px;
+  color: #9fd4b4;
+  font-size: 15px;
+  font-weight: 500;
+  list-style: none;
+  cursor: pointer;
+}
+
+.service-details summary::-webkit-details-marker { display: none; }
+.service-details summary:hover { color: #fff; }
+.service-details summary:focus-visible {
+  outline: 2px solid #9fd4b4;
+  outline-offset: 6px;
+}
+
+.service-toggle {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.service-details[open] .service-toggle { transform: rotate(45deg); }
+.service-detail-content { padding-top: 22px; }
+.service-detail-content ul {
+  margin: 20px 0 24px;
+  padding-left: 20px;
+  color: #bdcad9;
+  font-size: 15px;
+  line-height: 1.65;
+}
+.service-detail-content li + li { margin-top: 10px; }
+.service-detail-content li::marker { color: #9fd4b4; }
+.service-detail-content a {
+  color: #9fd4b4;
+  font-size: 15px;
+  line-height: 1.6;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.service-detail-content a:hover { color: #fff; }
+
+.services-additional {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 24px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #405269;
+}
+.services-additional h3 {
+  margin: 0;
+  font: 400 25px/1.25 'Newsreader', serif;
+}
+.services-additional p,
+.services-next-step p {
+  margin: 0;
+  color: #bdcad9;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.services-additional strong { color: #fbf9f5; font-weight: 500; }
+.services-next-step {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 40px;
+}
+.services-next-step p { max-width: 65ch; }
+.services-next-step a {
+  padding: 17px 26px;
+  background: #1c7a45;
+  color: #fff;
+  border-radius: 2px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+@media (max-width: 1000px) {
+  .services-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .services-grid,
+  .services-additional { grid-template-columns: minmax(0, 1fr); }
+  .service-card h3,
+  .service-card > p { min-height: 0; }
+}
+@media (max-width: 560px) {
+  .services-section { padding: 76px 0; }
+  .services-container { padding: 0 20px; }
+  .service-card { padding: 26px 24px; }
 }
 
 .skip-link {
@@ -149,6 +333,125 @@ textarea:focus-visible {
   padding: 12px 20px;
   font: 500 14px/1 'IBM Plex Sans', system-ui, sans-serif;
   border-radius: 2px;
+}
+
+/* ── Locations ────────────────────────────────────────────────────────── */
+
+.locations-intro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 48px;
+  margin-bottom: 40px;
+}
+
+.location-eyebrow {
+  margin-bottom: 18px;
+  color: #1c7a45;
+  font: 400 12.5px/1.6 'IBM Plex Mono', monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.locations-intro h2 {
+  max-width: 20ch;
+  margin: 0;
+  font: 300 clamp(31px, 3.7vw, 46px)/1.12 'Newsreader', serif;
+  letter-spacing: -0.015em;
+}
+
+.locations-intro p {
+  max-width: 38ch;
+  margin: 0;
+  color: #5a6472;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.locations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.location-card {
+  min-width: 0;
+  border: 1px solid #e6e0d6;
+  background: #fffdf9;
+}
+
+.location-details {
+  padding: 32px;
+}
+
+.location-details .location-eyebrow {
+  margin-bottom: 10px;
+}
+
+.location-details h3 {
+  margin: 0 0 16px;
+  font: 400 32px/1.15 'Newsreader', serif;
+}
+
+.location-details address,
+.contact-location {
+  color: #3a4859;
+  font-size: 17px;
+  font-style: normal;
+  line-height: 1.65;
+}
+
+.location-directions {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid #1c7a45;
+  font-size: 15.5px;
+  font-weight: 500;
+}
+
+.location-card iframe {
+  display: block;
+  width: 100%;
+  height: 240px;
+  border: 0;
+  border-top: 1px solid #e6e0d6;
+  background: #e6e0d6;
+}
+
+.clinic-overview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  align-items: center;
+  gap: 48px 64px;
+  margin-top: 80px;
+}
+
+.contact-location + .contact-location {
+  margin-top: 24px;
+}
+
+.contact-location a,
+.contact-location span {
+  display: block;
+}
+
+.contact-location a {
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+@media (max-width: 700px) {
+  .locations-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .location-details {
+    padding: 24px;
+  }
 }
 
 /* ── Responsive adjustments ────────────────────────────────────────────── */
@@ -192,5 +495,92 @@ textarea:focus-visible {
   }
   #contact form {
     padding: 32px 24px 36px !important;
+  }
+}
+
+/* Comfortable mobile reading and touch controls, without clipping content. */
+img {
+  max-width: 100%;
+}
+
+.f-underline {
+  min-height: 48px;
+}
+
+.location-directions,
+footer a {
+  min-height: 44px;
+  align-content: center;
+}
+
+@media (min-width: 701px) and (max-width: 960px) {
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    column-gap: 32px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .hero-shade {
+    background: linear-gradient(180deg, rgb(9 24 43 / 90%), rgb(9 24 43 / 95%)) !important;
+  }
+
+  .hero-content {
+    padding-top: 56px !important;
+    padding-bottom: 48px !important;
+  }
+
+  #top h1 {
+    font-size: clamp(36px, 8.5vw, 48px) !important;
+    line-height: 1.08 !important;
+  }
+
+  #top p {
+    font-size: 18px !important;
+    margin-bottom: 28px !important;
+  }
+
+  .hero-actions a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 15px 16px !important;
+    text-align: center;
+  }
+
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 28px 24px !important;
+    padding: 32px 0 !important;
+  }
+
+  #approach, #services, #process, #team, #locations, #contact {
+    padding-top: 72px !important;
+    padding-bottom: 72px !important;
+  }
+
+  #careers {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+
+  .approach-point {
+    grid-template-columns: 30px minmax(0, 1fr) !important;
+    gap: 16px !important;
+    padding: 24px 0 !important;
+  }
+
+  .steps {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .founder-bio {
+    padding: 24px !important;
+  }
+
+  .clinic-overview {
+    margin-top: 56px;
   }
 }

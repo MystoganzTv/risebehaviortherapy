@@ -1,0 +1,54 @@
+---
+import { serviceOfferings } from '../data/service-offerings';
+---
+
+<section id="services" class="services-section" aria-labelledby="services-heading">
+  <div class="services-container">
+    <div class="services-intro">
+      <div>
+        <div class="service-eyebrow">02 — Services</div>
+        <h2 id="services-heading">Support for every part of life.</h2>
+      </div>
+      <p>Explore care for children, individuals, and families, alongside resources for professionals. We’ll help you find a place to start.</p>
+    </div>
+    <div class="services-grid">
+      {serviceOfferings.map((service) => (
+        <article id={service.slug} class="service-card" aria-labelledby={`${service.slug}-heading`}>
+          <div class="service-eyebrow">{service.category}</div>
+          <h3 id={`${service.slug}-heading`}>{service.title}</h3>
+          <p>{service.description}</p>
+          <details class="service-details">
+            <summary aria-label={`Explore ${service.title}`}>
+              <span>Explore this service</span><span class="service-toggle" aria-hidden="true">+</span>
+            </summary>
+            <div class="service-detail-content">
+              <p>{service.detail}</p>
+              <ul>{service.points.map((point) => <li>{point}</li>)}</ul>
+              <a href="#contact" data-service-topic={service.title}>Ask about {service.title} <span aria-hidden="true">↗</span></a>
+            </div>
+          </details>
+        </article>
+      ))}
+    </div>
+    <div class="services-additional">
+      <h3>Additional therapy support</h3>
+      <p><strong>Speech Therapy</strong> for communication, language, and AAC support. <strong>Occupational Therapy</strong> for motor skills, sensory needs, and daily routines.</p>
+    </div>
+    <div class="services-next-step">
+      <p>Not sure which service fits? Contact us to discuss your goals, availability at your location, and coverage.</p>
+      <a href="#contact" class="h-green-btn">Find your next step <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-service-topic]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const topic = document.querySelector<HTMLSelectElement>('select[name="topic"]');
+      if (topic && link.dataset.serviceTopic) {
+        topic.value = link.dataset.serviceTopic;
+        topic.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+  });
+</script>

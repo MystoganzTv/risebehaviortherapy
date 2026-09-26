@@ -9,7 +9,7 @@ export const site = {
   tagline: 'Building Potential. Inspiring Futures.',
   url: 'https://risebehaviortherapy.com',
   description:
-    'BCBA-owned ABA therapy in Miami Lakes, FL. Center-based, in-home and school-based Applied Behavior Analysis for children with autism. Most insurance accepted.',
+    'BCBA-owned ABA therapy in Florida and Virginia, with locations in Miami Lakes, FL and Herndon, VA. Individualized care and family support. Most insurance accepted.',
 };
 
 export const contact = {
@@ -40,6 +40,31 @@ export const contact = {
     linkedin: '',
   },
 };
+
+export const locations = [
+  {
+    id: 'miami-lakes',
+    city: 'Miami Lakes',
+    stateName: 'Florida',
+    address: contact.address,
+  },
+  {
+    id: 'herndon',
+    city: 'Herndon',
+    stateName: 'Virginia',
+    address: {
+      street: '205 Van Buren St',
+      city: 'Herndon',
+      state: 'VA',
+      zip: '20170',
+      full: '205 Van Buren St, Herndon, VA 20170',
+      mapsUrl:
+        'https://www.google.com/maps/search/?api=1&query=205+Van+Buren+St+Herndon+VA+20170',
+      embedUrl:
+        'https://www.google.com/maps?q=205+Van+Buren+St+Herndon+VA+20170&output=embed',
+    },
+  },
+];
 
 /**
  * Form handling. Free endpoint from https://web3forms.com — create an access key
@@ -209,38 +234,40 @@ export const insurances = [
   'Private Pay',
 ];
 
+// General ABA overview: https://www.cdc.gov/autism/treatment/index.html
+// Plan-specific coverage and location-specific availability are confirmed at intake.
 export const faqs = [
   {
     q: 'What is ABA therapy?',
-    a: 'Applied Behavior Analysis is the most extensively researched treatment for autism. It works by understanding why a behavior happens, then systematically teaching skills that are more useful to the child — communication, independence, social interaction — while reducing behaviors that get in the way of learning and safety.',
-  },
-  {
-    q: 'How do I know if my child qualifies?',
-    a: 'Most insurance plans require a diagnosis of autism spectrum disorder from a qualified provider, plus a prescription or referral for ABA. If you do not have one yet, call us anyway — we will tell you exactly what is needed and point you toward evaluating providers in the area.',
-  },
-  {
-    q: 'Do you take my insurance?',
-    a: 'We work with Florida Medicaid plans and most major commercial insurers, and we also accept private pay. Coverage varies plan to plan, so the fastest answer is a free benefits check — send us your information and we will verify it for you.',
-  },
-  {
-    q: 'How many hours per week will my child need?',
-    a: 'It depends entirely on the assessment. Some children benefit from focused programming of a few hours a week targeting specific skills; others do better with comprehensive programming. Your BCBA will recommend a number, explain the reasoning, and adjust it as your child progresses.',
-  },
-  {
-    q: 'Where does therapy take place?',
-    a: 'At our Miami Lakes center, in your home, or in your child’s school and community — whichever fits your family and your child’s goals. Many families use a combination.',
-  },
-  {
-    q: 'Who will be working with my child?',
-    a: 'Direct sessions are run by Registered Behavior Technicians who are trained and supervised by a Board Certified Behavior Analyst. Your BCBA designs the program, monitors data, trains caregivers, and stays involved throughout.',
-  },
-  {
-    q: 'How long is the waitlist?',
-    a: 'It varies by setting and schedule. Call us with your availability and we will give you an honest answer instead of a vague one.',
+    a: 'Applied Behavior Analysis (ABA) is an approach to understanding learning and behavior. It uses structured teaching and positive reinforcement to work on skills such as communication and daily routines. At Rise, goals are chosen around individual needs, and progress is reviewed to guide the plan.',
   },
   {
     q: 'What ages do you serve?',
-    a: 'We work with children and young adults from 2 to 20 years old. If you are not sure whether your child is a fit, call us — we would rather have a five-minute conversation than have you wonder.',
+    a: 'Our programs support children, adolescents, and adults. Tell us the age of the person seeking services and your preferred location so we can discuss the options available for their needs.',
+  },
+  {
+    q: 'Do you accept my insurance?',
+    a: 'Coverage depends on your insurance plan, the service requested, and the location. Contact our team to discuss your plan and the benefits verification process, including any authorization requirements or possible out-of-pocket costs.',
+  },
+  {
+    q: 'Do I need a diagnosis or referral before contacting you?',
+    a: 'You can reach out with questions before you have all your paperwork. Requirements for starting services depend on your insurance plan and the service requested. Our team can help clarify what documentation is needed and explain the next steps.',
+  },
+  {
+    q: 'Can therapy take place at home or at school?',
+    a: 'Rise offers home-based ABA, center-based care, and school support. The available options depend on your location, individual needs, coverage, and team availability. We can discuss which setting may fit your family during the initial conversation.',
+  },
+  {
+    q: 'Where are your locations, and what services are available?',
+    a: `You can find us in ${locations.map((location) => `${location.city}, ${location.stateName}, at ${location.address.street} (${location.address.zip})`).join('; and ')}. Contact our team to confirm the services and appointment availability at your preferred location. The Locations section includes a map for each address.`,
+  },
+  {
+    q: 'How soon can services begin?',
+    a: 'Timing depends on scheduling, assessments, any required insurance authorization, and staff availability. Share your preferred location and schedule with us so we can explain the current steps and availability for your situation.',
+  },
+  {
+    q: 'How do I get started?',
+    a: `Call ${contact.phone} or use the contact form below. We will talk through what you are looking for, answer your questions, and explain the next steps. Please keep medical records and sensitive health details out of the website form; ask our team how to share any required documents.`,
   },
 ];
 

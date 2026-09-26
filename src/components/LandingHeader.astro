@@ -1,0 +1,128 @@
+---
+import { contact } from '../data/site';
+
+const links = [
+  ['Our Approach', '#approach'],
+  ['Services', '#services'],
+  ['Getting Started', '#process'],
+  ['Our Team', '#team'],
+  ['Locations', '#locations'],
+  ['FAQ', '#faq'],
+  ['Careers', '#careers'],
+];
+---
+
+<div class="utility-bar">
+  <div class="utility-inner">
+    <div class="utility-meta">
+      <span>Miami Lakes, FL &amp; Herndon, VA</span>
+      <span class="utility-hours">Mon–Fri, 9:00 am – 5:00 pm</span>
+    </div>
+    <div class="utility-contact">
+      <span>Now accepting new clients</span>
+      <a href={contact.phoneHref}>786-566-5863</a>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="header-inner">
+    <a class="brand" href="#top" aria-label="Rise Behavior Therapy — home">
+      <span class="brand-name">RISE</span>
+      <span class="brand-description">Behavior Therapy</span>
+    </a>
+    <nav class="desktop-nav" aria-label="Main navigation">
+      {links.map(([label, href]) => <a href={href}>{label}</a>)}
+    </nav>
+    <a class="desktop-cta h-navy-cta" href="#contact">Schedule a Consultation</a>
+    <div class="mobile-actions">
+      <a class="mobile-call" href={contact.phoneHref} aria-label="Call Rise Behavior Therapy">Call</a>
+      <details id="landing-menu">
+        <summary aria-label="Navigation menu">
+          <span class="menu-label">Menu</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path class="menu-bars" d="M4 6h16M4 12h16M4 18h16" />
+            <path class="menu-close" d="m6 6 12 12M6 18 18 6" />
+          </svg>
+        </summary>
+        <nav class="mobile-nav" aria-label="Mobile navigation">
+          {links.map(([label, href]) => <a href={href}>{label}</a>)}
+          <a class="menu-consultation" href="#contact">Schedule a Consultation</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  const menu = document.querySelector<HTMLDetailsElement>('#landing-menu');
+  if (menu) {
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => { menu.open = false; });
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.open) {
+        menu.open = false;
+        menu.querySelector('summary')?.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (event.target instanceof Node && !menu.contains(event.target)) menu.open = false;
+    });
+    window.matchMedia('(min-width: 1200px)').addEventListener('change', () => {
+      menu.open = false;
+    });
+  }
+</script>
+
+<style>
+  .utility-bar { background: #0e2440; color: #c6d2e0; font-size: 13px; }
+  .utility-inner, .header-inner { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+  .utility-inner, .utility-meta, .utility-contact { display: flex; align-items: center; gap: 24px; }
+  .utility-inner { justify-content: space-between; min-height: 40px; }
+  .utility-contact span { color: #9fd4b4; }
+  .utility-contact a { color: #fbf9f5; font-weight: 500; }
+  header { position: sticky; top: 0; z-index: 50; background: #fbf9f5; border-bottom: 1px solid #e6e0d6; }
+  .header-inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 84px; }
+  .brand { display: flex; flex-direction: column; flex: none; gap: 4px; color: #0e2440; white-space: nowrap; }
+  .brand-name { font: 400 26px/1 'Newsreader', serif; letter-spacing: 0.34em; }
+  .brand-description { color: #1c7a45; font-size: 10px; font-weight: 600; letter-spacing: 0.24em; text-transform: uppercase; }
+  .desktop-nav { display: flex; gap: 18px; }
+  .desktop-nav a { display: flex; align-items: center; min-height: 44px; color: #3a4859; font-size: 14.5px; font-weight: 500; white-space: nowrap; }
+  .desktop-cta { padding: 15px 20px; border-radius: 2px; background: #0e2440; color: #fbf9f5; font-size: 15px; font-weight: 500; white-space: nowrap; }
+  .mobile-actions { display: none; }
+
+  @media (max-width: 1199px) {
+    .header-inner { min-height: 72px; gap: 12px; }
+    .desktop-nav, .desktop-cta { display: none; }
+    .mobile-actions { display: flex; align-items: center; gap: 10px; }
+    .mobile-call { display: flex; align-items: center; justify-content: center; min-width: 48px; min-height: 44px; padding: 0 10px; color: #1c7a45; font-size: 15px; font-weight: 500; }
+    summary { display: flex; align-items: center; justify-content: center; gap: 9px; min-width: 44px; min-height: 44px; padding: 0 12px; border: 1px solid #d8d2c7; border-radius: 2px; font-size: 15px; cursor: pointer; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary:focus-visible { outline: 2px solid #1c7a45; outline-offset: 3px; }
+    .menu-close, details[open] .menu-bars { display: none; }
+    details[open] .menu-close { display: block; }
+    .mobile-nav { position: absolute; top: 100%; left: 0; right: 0; display: grid; padding: 12px 32px 20px; max-height: calc(100dvh - 144px); overflow-y: auto; overscroll-behavior: contain; background: #fbf9f5; border-bottom: 1px solid #e6e0d6; box-shadow: 0 12px 24px rgb(14 36 64 / 12%); }
+    .mobile-nav a { display: flex; align-items: center; min-height: 48px; padding: 10px 8px; color: #0e2440; font-size: 16px; border-bottom: 1px solid #e6e0d6; }
+    .mobile-nav .menu-consultation { justify-content: center; margin-top: 12px; background: #1c7a45; color: #fff !important; border: 0; border-radius: 2px; text-align: center; }
+  }
+
+  @media (max-width: 700px) {
+    .utility-inner { flex-wrap: wrap; justify-content: center; gap: 4px 16px; padding-top: 8px; padding-bottom: 8px; text-align: center; font-size: 12px; }
+    .utility-meta, .utility-contact { gap: 0; }
+    .utility-hours, .utility-contact a { display: none; }
+  }
+
+  @media (max-width: 560px) {
+    .utility-inner, .header-inner { padding-left: 20px; padding-right: 20px; }
+    .header-inner { gap: 8px; }
+    .mobile-actions { gap: 4px; }
+    .mobile-nav { padding-left: 20px; padding-right: 20px; }
+    .brand-name { font-size: 24px; }
+    .brand-description { font-size: 9px; }
+  }
+
+  @media (max-width: 379px) {
+    .menu-label { display: none; }
+  }
+</style>
