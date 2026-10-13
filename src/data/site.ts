@@ -46,12 +46,18 @@ export const locations = [
     id: 'miami-lakes',
     city: 'Miami Lakes',
     stateName: 'Florida',
+    phone: '786-566-5863',
+    phoneHref: 'tel:+17865665863',
+    phoneRaw: '+17865665863',
     address: contact.address,
   },
   {
     id: 'herndon',
     city: 'Herndon',
     stateName: 'Virginia',
+    phone: '305-610-2811',
+    phoneHref: 'tel:+13056102811',
+    phoneRaw: '+13056102811',
     address: {
       street: '205 Van Buren St',
       city: 'Herndon',
@@ -267,7 +273,7 @@ export const faqs = [
   },
   {
     q: 'How do I get started?',
-    a: `Call ${contact.phone} or use the contact form below. We will talk through what you are looking for, answer your questions, and explain the next steps. Please keep medical records and sensitive health details out of the website form; ask our team how to share any required documents.`,
+    a: `Call ${locations.map((location) => `${location.phone} for ${location.city}, ${location.stateName}`).join(', or ')}, or use the contact form below. We will talk through what you are looking for, answer your questions, and explain the next steps. Please keep medical records and sensitive health details out of the website form; ask our team how to share any required documents.`,
   },
 ];
 

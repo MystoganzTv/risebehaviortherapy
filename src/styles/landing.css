@@ -413,6 +413,27 @@ textarea:focus-visible {
   font-weight: 500;
 }
 
+.location-phone {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  margin-top: 12px;
+  color: #0e2440;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.location-phone span {
+  width: 70px;
+  flex: none;
+  color: #1c7a45;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .location-card iframe {
   display: block;
   width: 100%;

@@ -57,6 +57,7 @@ const schema = {
     '@id': `${site.url}/#${location.id}`,
     name: `${site.name} — ${location.city}`,
     hasMap: location.address.mapsUrl,
+    telephone: location.phoneRaw,
     address: {
       '@type': 'PostalAddress',
       streetAddress: location.address.street,
@@ -324,6 +325,9 @@ const schema = {
                   {location.address.street}<br />
                   {location.address.city}, {location.address.state} {location.address.zip}
                 </address>
+                <a href={location.phoneHref} class="location-phone" aria-label={`Call our ${location.city}, ${location.stateName} location at ${location.phone}`}>
+                  <span>Phone</span>{location.phone}
+                </a>
                 <a href={location.address.mapsUrl} target="_blank" rel="noopener noreferrer" class="location-directions" aria-label={`Open ${location.city} location in Google Maps (opens in a new tab)`}>
                   Open in Google Maps <span aria-hidden="true">↗</span>
                 </a>
@@ -387,10 +391,14 @@ const schema = {
             <h2 style="font-family:'Newsreader',serif;font-weight:300;font-size:clamp(34px,4vw,50px);line-height:1.08;letter-spacing:-0.02em;margin:0 0 24px">You don't need to have every answer to reach out.</h2>
             <p style="font-size:19px;line-height:1.66;color:#5A6472;margin:0 0 20px;max-width:46ch;text-wrap:pretty">Whether you're exploring therapy, looking for family support, or seeking professional guidance, we can talk through your questions, explain the next steps, and help you understand whether Rise is a good fit.</p>
             <p style="font-size:17px;line-height:1.66;color:#5A6472;margin:0 0 40px;max-width:46ch">Send us a message or call our team to start the conversation.</p>
-            <a href={phoneHref} class="h-call" style="display:inline-flex;align-items:baseline;gap:14px;border-top:1px solid #0E2440;border-bottom:1px solid #E6E0D6;padding:22px 0;width:100%;color:#0E2440">
-              <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.16em;color:#6F6A5D">CALL</span>
-              <span style="font-family:'Newsreader',serif;font-size:clamp(28px,3.2vw,40px);line-height:1;letter-spacing:-0.01em">{phoneDisplay}</span>
-            </a>
+            <div class="call-lines">
+              {locations.map((location, index) => (
+                <a href={location.phoneHref} class="h-call" aria-label={`Call our ${location.city}, ${location.stateName} location at ${location.phone}`} style={`display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-top:${index === 0 ? '1px solid #0E2440' : '0'};border-bottom:1px solid #E6E0D6;padding:22px 0;width:100%;color:#0E2440`}>
+                  <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.16em;color:#6F6A5D;text-transform:uppercase;min-width:150px">{location.city}, {location.address.state}</span>
+                  <span style="font-family:'Newsreader',serif;font-size:clamp(28px,3.2vw,40px);line-height:1;letter-spacing:-0.01em">{location.phone}</span>
+                </a>
+              ))}
+            </div>
             <div style="margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:32px 40px">
               <div>
                 <div style="font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.16em;color:#6F6A5D;margin-bottom:10px">VISIT</div>
@@ -493,12 +501,14 @@ const schema = {
             </div>
             <div style="display:flex;flex-direction:column;gap:12px;font-size:16px">
               <span style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:#7E8FA6;font-family:'IBM Plex Mono',monospace">Contact</span>
-              <a href={phoneHref} style="color:#FBF9F5">{phoneDisplay}</a>
               {locations.map((location) => (
-                <a href={location.address.mapsUrl} target="_blank" rel="noopener noreferrer" style="color:#8FA0B4;line-height:1.6">
-                  <strong style="color:#FBF9F5;font-weight:500">{location.city}, {location.stateName}</strong><br />
-                  {location.address.street}<br />{location.address.city}, {location.address.state} {location.address.zip}
-                </a>
+                <div style="display:flex;flex-direction:column">
+                  <a href={location.address.mapsUrl} target="_blank" rel="noopener noreferrer" style="color:#8FA0B4;line-height:1.6">
+                    <strong style="color:#FBF9F5;font-weight:500">{location.city}, {location.stateName}</strong><br />
+                    {location.address.street}<br />{location.address.city}, {location.address.state} {location.address.zip}
+                  </a>
+                  <a href={location.phoneHref} style="color:#FBF9F5">{location.phone}</a>
+                </div>
               ))}
             </div>
           </div>
